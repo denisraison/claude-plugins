@@ -1,0 +1,20 @@
+{
+  "name": "santos",
+  "owner": {
+    "name": "santos"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugins using cursor-agent",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "consultant",
+      "source": "./plugins/consultant",
+      "description": "Multi-model AI consultation using cursor-agent. Supports consultation, research, and deliberation modes.",
+      "version": "1.0.1",
+      "keywords": ["consultant", "research", "multi-model", "cursor-agent", "deliberation"]
+    }
+  ]
+}

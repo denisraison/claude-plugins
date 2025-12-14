@@ -35,4 +35,30 @@ flake-regressions
 # direnv
 .direnv/
 
-claude-plugins/
+nicknisi-claude-plugins/
+
+# Scratch space
+scratch/
+
+# Binary outputs
+*-server
+*-cli
+
+# SQLite
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db-wal
+*.db-shm
+
+# Build caches
+node_modules/
+dist/
+
+# Environment
+.env
+.env.local
+.envrc
+
+# Logs
+*.log
