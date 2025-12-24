@@ -1,0 +1,5 @@
+{
+  "name": "history-analyser",
+  "version": "1.0.9",
+  "description": "Analyse Claude Code conversation history for search and summaries"
+}

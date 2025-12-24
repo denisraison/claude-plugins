@@ -14,7 +14,38 @@
       "source": "./plugins/consultant",
       "description": "Multi-model AI consultation using cursor-agent. Supports consultation, research, and deliberation modes.",
       "version": "1.0.1",
-      "keywords": ["consultant", "research", "multi-model", "cursor-agent", "deliberation"]
+      "keywords": [
+        "consultant",
+        "research",
+        "multi-model",
+        "cursor-agent",
+        "deliberation"
+      ]
+    },
+    {
+      "name": "skill-utils",
+      "source": "./plugins/skill-utils",
+      "description": "Utilities for creating and validating Claude Code skills. Scaffolds new skills with proper structure.",
+      "version": "1.0.0",
+      "keywords": [
+        "skills",
+        "scaffold",
+        "validate",
+        "development"
+      ]
+    },
+    {
+      "name": "history-analyser",
+      "source": "./plugins/history-analyser",
+      "description": "Search and summarise Claude Code conversation history. Find past discussions and generate work summaries.",
+      "version": "1.0.9",
+      "keywords": [
+        "history",
+        "search",
+        "summary",
+        "analytics",
+        "conversations"
+      ]
     }
   ]
 }
