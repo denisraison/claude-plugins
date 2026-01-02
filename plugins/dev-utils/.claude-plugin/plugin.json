@@ -1,0 +1,5 @@
+{
+  "name": "dev-utils",
+  "version": "1.0.1",
+  "description": "Developer workflow commands for common git and project tasks"
+}
