@@ -49,19 +49,6 @@
       ]
     },
     {
-      "name": "dev-utils",
-      "source": "./plugins/dev-utils",
-      "description": "Developer workflow commands for common git and project tasks.",
-      "version": "1.0.1",
-      "keywords": [
-        "git",
-        "commit",
-        "workflow",
-        "developer",
-        "utilities"
-      ]
-    },
-    {
       "name": "workflow-tools",
       "source": "./plugins/workflow-tools",
       "description": "Code review checklist and PEP document workflow tools.",
