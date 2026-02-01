@@ -15,6 +15,21 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+resolve_agent_cli() {
+    if [[ -n "${AGENT_CLI:-}" ]]; then
+        echo "${AGENT_CLI}"
+        return 0
+    fi
+    
+    if command -v agent >/dev/null 2>&1; then
+        echo "agent"
+        return 0
+    fi
+
+    echo "Error: neither 'cursor-agent' nor 'agent' found in PATH (set AGENT_CLI to override)" >&2
+    exit 127
+}
+
 resolve_model() {
     local alias="$1"
     while IFS='|' read -r a model desc; do
@@ -25,9 +40,10 @@ resolve_model() {
 }
 
 MODEL_ID=$(resolve_model "$MODEL_ALIAS")
+AGENT_BIN="$(resolve_agent_cli)"
 
 if [[ -n "$OUTPUT_FILE" ]]; then
-    cursor-agent -p "$PROMPT" --model "$MODEL_ID" --output-format text > "$OUTPUT_FILE"
+    "$AGENT_BIN" -p "$PROMPT" --model "$MODEL_ID" --output-format text > "$OUTPUT_FILE"
 else
-    cursor-agent -p "$PROMPT" --model "$MODEL_ID" --output-format text
+    "$AGENT_BIN" -p "$PROMPT" --model "$MODEL_ID" --output-format text
 fi

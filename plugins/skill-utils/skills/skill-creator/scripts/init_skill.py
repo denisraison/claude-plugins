@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-Skill Initializer - Creates a new skill within a plugin
+Skill Initializer - Creates a new skill for a plugin or repository
 
 Usage:
+    init_skill.py <skill-name> --repo [--path <repo-path>]
     init_skill.py <skill-name> --plugin <plugin-name>
-    init_skill.py <skill-name> --path <path>
 
 Examples:
-    init_skill.py code-reviewer --plugin dev-tools
-    init_skill.py my-helper --path plugins/my-plugin/skills
+    init_skill.py deploy-helper --repo                    # In current repo
+    init_skill.py deploy-helper --repo --path /my/repo    # In specific repo
+    init_skill.py code-reviewer --plugin dev-tools        # In a plugin
 """
 
 import sys
@@ -45,6 +46,17 @@ def title_case(name: str) -> str:
     return " ".join(word.capitalize() for word in name.split("-"))
 
 
+def find_repo_root(start: Path = None) -> Path:
+    """Find the repository root by looking for .git directory."""
+    cwd = start or Path.cwd()
+    if (cwd / ".git").exists():
+        return cwd
+    for parent in cwd.parents:
+        if (parent / ".git").exists():
+            return parent
+    return cwd
+
+
 def find_plugins_dir() -> Path:
     cwd = Path.cwd()
     if (cwd / "plugins").is_dir():
@@ -55,14 +67,20 @@ def find_plugins_dir() -> Path:
     return cwd / "plugins"
 
 
-def init_skill(skill_name: str, plugin_name: str = None, path: str = None) -> bool:
-    if path:
-        skill_dir = Path(path).resolve() / skill_name
+def init_skill(
+    skill_name: str,
+    plugin_name: str = None,
+    repo_mode: bool = False,
+    path: str = None,
+) -> bool:
+    if repo_mode:
+        repo_root = Path(path).resolve() if path else find_repo_root()
+        skill_dir = repo_root / ".claude" / "skills" / skill_name
     elif plugin_name:
         plugins_dir = find_plugins_dir()
         skill_dir = plugins_dir / plugin_name / "skills" / skill_name
     else:
-        print("Error: Must provide --plugin or --path")
+        print("Error: Must provide --repo or --plugin")
         return False
 
     if skill_dir.exists():
@@ -94,12 +112,13 @@ def init_skill(skill_name: str, plugin_name: str = None, path: str = None) -> bo
 
 def main():
     args = sys.argv[1:]
-    if len(args) < 3:
+    if len(args) < 2:
         print(__doc__)
         sys.exit(1)
 
     skill_name = args[0]
     plugin_name = None
+    repo_mode = False
     path = None
 
     i = 1
@@ -107,13 +126,16 @@ def main():
         if args[i] == "--plugin" and i + 1 < len(args):
             plugin_name = args[i + 1]
             i += 2
+        elif args[i] == "--repo":
+            repo_mode = True
+            i += 1
         elif args[i] == "--path" and i + 1 < len(args):
             path = args[i + 1]
             i += 2
         else:
             i += 1
 
-    if init_skill(skill_name, plugin_name, path):
+    if init_skill(skill_name, plugin_name, repo_mode, path):
         sys.exit(0)
     else:
         sys.exit(1)

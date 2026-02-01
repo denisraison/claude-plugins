@@ -1,0 +1,5 @@
+{
+  "name": "cursor-sync",
+  "description": "Syncs Claude Code plugins to Cursor skills directory. Uses symlinks for zero-copy sync with launchd watcher.",
+  "version": "1.0.0"
+}

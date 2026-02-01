@@ -13,7 +13,7 @@
       "name": "consultant",
       "source": "./plugins/consultant",
       "description": "Multi-model AI consultation using cursor-agent. Supports consultation, research, and deliberation modes.",
-      "version": "1.0.1",
+      "version": "1.0.3",
       "keywords": [
         "consultant",
         "research",
@@ -25,13 +25,14 @@
     {
       "name": "skill-utils",
       "source": "./plugins/skill-utils",
-      "description": "Utilities for creating and validating Claude Code skills. Scaffolds new skills with proper structure.",
-      "version": "1.0.0",
+      "description": "Utilities for creating and validating Claude Code skills. Scaffolds new skills for plugins or repositories.",
+      "version": "1.2.0",
       "keywords": [
         "skills",
         "scaffold",
         "validate",
-        "development"
+        "development",
+        "repository"
       ]
     },
     {
@@ -58,6 +59,44 @@
         "workflow",
         "developer",
         "utilities"
+      ]
+    },
+    {
+      "name": "workflow-tools",
+      "source": "./plugins/workflow-tools",
+      "description": "Code review checklist and PEP document workflow tools.",
+      "version": "1.0.0",
+      "keywords": [
+        "review",
+        "pep",
+        "workflow",
+        "checklist"
+      ]
+    },
+    {
+      "name": "cursor-sync",
+      "source": "./plugins/cursor-sync",
+      "description": "Syncs Claude Code plugins to Cursor skills directory using symlinks with launchd watcher.",
+      "version": "1.0.0",
+      "keywords": [
+        "cursor",
+        "sync",
+        "symlink",
+        "launchd",
+        "skills"
+      ]
+    },
+    {
+      "name": "commit-commands",
+      "source": "./plugins/commit-commands",
+      "description": "Git commit workflow commands: commit, push and PR, branch cleanup.",
+      "version": "1.0.0",
+      "keywords": [
+        "git",
+        "commit",
+        "pr",
+        "branch",
+        "cleanup"
       ]
     }
   ]

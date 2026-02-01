@@ -1,0 +1,5 @@
+{
+  "name": "commit-commands",
+  "version": "1.0.0",
+  "description": "Git commit workflow commands: commit, push and PR, branch cleanup"
+}
