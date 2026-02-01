@@ -1,13 +1,13 @@
 ---
 name: cursor-sync
-description: Syncs Claude Code plugins to Cursor skills directory. Manages symlinks and launchd watcher service.
+description: Syncs Claude Code plugins to Cursor skills and commands directories.
 ---
 
 # Cursor Sync
 
-Syncs Claude Code plugins to Cursor's skills directory using symlinks. Changes to installed plugins are automatically detected and synced.
+Syncs Claude Code plugins to Cursor's skills and commands directories. Changes to installed plugins are automatically detected and synced.
 
-## Commands
+## Scripts
 
 Run these scripts from the plugin directory:
 
@@ -15,7 +15,7 @@ Run these scripts from the plugin directory:
 ```bash
 ./scripts/sync.sh
 ```
-Performs a one-time sync of all installed Claude Code plugins to `~/.cursor/skills/`.
+Performs a one-time sync of all installed Claude Code plugins to `~/.cursor/skills/` and `~/.cursor/commands/`.
 
 ### Start Watcher
 ```bash
@@ -42,10 +42,11 @@ Installs a launchd service that starts on login and keeps syncing in the backgro
 ## How It Works
 
 1. Reads `~/.claude/plugins/installed_plugins.json` to find installed plugins
-2. For each plugin, finds skills in `<install_path>/skills/`
-3. Creates symlinks in `~/.cursor/skills/` pointing to the original skill directories
-4. Handles naming conflicts by prefixing with `<marketplace>-<plugin>-<skill>`
-5. Cleans up orphaned symlinks when plugins are uninstalled
+2. For each plugin:
+   - Copies skill directories from `<install_path>/skills/` to `~/.cursor/skills/`
+   - Copies command files from `<install_path>/commands/` to `~/.cursor/commands/`
+3. Handles naming conflicts by prefixing with plugin name
+4. Cleans up orphaned files when plugins are uninstalled
 
 ## Dependencies
 

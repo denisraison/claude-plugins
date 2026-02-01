@@ -63,14 +63,14 @@
     {
       "name": "cursor-sync",
       "source": "./plugins/cursor-sync",
-      "description": "Syncs Claude Code plugins to Cursor skills directory using symlinks with launchd watcher.",
-      "version": "1.0.0",
+      "description": "Syncs Claude Code plugins to Cursor skills and commands directories with launchd watcher.",
+      "version": "1.1.0",
       "keywords": [
         "cursor",
         "sync",
-        "symlink",
         "launchd",
-        "skills"
+        "skills",
+        "commands"
       ]
     },
     {
