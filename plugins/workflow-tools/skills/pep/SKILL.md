@@ -16,11 +16,20 @@ PEPs document decisions and implementation plans.
 ## Create PEP
 
 1. Glob for `**/docs/PEP-*.md` to find the highest number, increment for next
-2. Write to `docs/PEP-XXX-<slug>.md` using the template below
+2. Write to `docs/PEP-XXX-<slug>.md`
 
-### Choosing Waves
+### Structure
 
-Determine the right number of waves based on task complexity. A wave is a sweep of work followed by a gate (a concrete validation check). Examples:
+Every PEP needs these sections. There is no fixed template — adapt the depth and format to the task:
+
+- **Title, Status** (Draft | In Progress | Done), **Date**
+- **Context** — The why. Explain the problem or decision clearly enough that someone unfamiliar could argue for it. Include what you're doing about it.
+- **Waves** — The work, broken into sweeps. See guidelines below.
+- **Consequences** — What changes as a result. Name real trade-offs, not just "things improve."
+
+### Waves
+
+A wave is a sweep of work followed by a gate. Choose the right number based on complexity:
 
 - **1 wave:** Config change, simple bug fix, documentation update
 - **2 waves:** New feature with tests, refactor with migration
@@ -28,32 +37,16 @@ Determine the right number of waves based on task complexity. A wave is a sweep 
 
 Do not default to 3. Name each wave after what it actually does, not generic labels.
 
-### Template
+### What Makes a Good Wave
 
-```markdown
-# [Title]
+A wave must give enough context that someone unfamiliar with the codebase — including an AI — could start working without asking clarifying questions. Each wave should:
 
-**Status:** Draft | In Progress | Done
-**Date:** YYYY-MM-DD
+- Name the specific files or areas affected and what changes in them
+- Explain approach decisions when there are multiple valid options
+- Include what tests need to be created or updated and how to handle edge cases
+- Have a gate that is runnable: a command, a test suite, a concrete observable check — not just "it works"
 
-## Context
-
-[What and why. What we're doing about it. 3-5 sentences max.]
-
-## Waves
-
-### Wave 1: [Name]
-[Brief description of this wave's goal.]
-- [ ] Task
-- [ ] Task
-- **Gate:** [Concrete check that this wave's work is valid.]
-
-<!-- Add more waves only if the task warrants them. -->
-
-## Consequences
-
-[What changes as a result. Trade-offs accepted.]
-```
+Don't over-specify. The goal is a clear picture of *what* needs to happen and *why*, not line-by-line instructions. Tasks should describe outcomes, not dictate implementation steps.
 
 ## Update PEP
 

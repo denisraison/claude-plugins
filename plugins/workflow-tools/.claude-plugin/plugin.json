@@ -1,5 +1,5 @@
 {
   "name": "workflow-tools",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Code review, cleanup, refactoring, PEP document workflow tools, and browser testing agent"
 }
