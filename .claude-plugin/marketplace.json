@@ -87,6 +87,19 @@
         "branch",
         "cleanup"
       ]
+    },
+    {
+      "name": "logo-pipeline",
+      "source": "./plugins/logo-pipeline",
+      "description": "Logo design generation pipeline using Gemini image generation. Generates prompt variations, calls API, evaluates results, iterates, and produces brand kits.",
+      "version": "1.7.0",
+      "keywords": [
+        "logo",
+        "design",
+        "image-generation",
+        "gemini",
+        "branding"
+      ]
     }
   ]
 }

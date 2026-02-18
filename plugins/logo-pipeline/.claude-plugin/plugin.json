@@ -1,0 +1,12 @@
+{
+  "name": "logo-pipeline",
+  "version": "1.7.0",
+  "description": "Logo design generation pipeline using Gemini image generation. Generates prompt variations, calls API, evaluates results, and iterates.",
+  "keywords": [
+    "logo",
+    "design",
+    "image-generation",
+    "gemini",
+    "branding"
+  ]
+}
