@@ -29,6 +29,7 @@ result-*
 
 # Mac OS
 .DS_Store
+._*
 
 flake-regressions
 
@@ -59,6 +60,9 @@ dist/
 .env
 .env.local
 .envrc
+
+# Claude Code local settings
+.claude/settings.local.json
 
 # Logs
 *.log
