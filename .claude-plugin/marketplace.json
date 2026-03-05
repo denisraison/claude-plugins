@@ -52,7 +52,7 @@
       "name": "workflow-tools",
       "source": "./plugins/workflow-tools",
       "description": "Code review, cleanup, refactoring, PEP document workflow tools, browser testing agent, and gate-keeper evaluation agent.",
-      "version": "2.0.1",
+      "version": "2.0.2",
       "keywords": [
         "review",
         "cleanup",

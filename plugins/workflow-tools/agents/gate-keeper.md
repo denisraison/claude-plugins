@@ -50,6 +50,7 @@ Score each gate and requirement individually as PASS, FAIL, PARTIAL, or UNVERIFI
 
 The verdict is derived mechanically from the criteria:
 - Any FAIL -> **HOLD**
+- Any UNVERIFIED -> **HOLD** (you do not get to skip checks)
 - All PASS, no concerns -> **PROCEED**
 - Mix of PASS/PARTIAL with no FAIL -> use judgement, but lean toward HOLD if PARTIAL items are significant
 
@@ -76,10 +77,14 @@ Do not invent an overall numeric score. The per-criterion results are the score.
 If PROCEED: update the PEP file now. Check off completed tasks (`- [x]`) and update the wave/PEP status. If any decisions were made or issues fixed that aren't documented in the PEP, add them as notes to the wave so the PEP stays the source of truth.
 ```
 
+**Browser and UI gates:**
+
+If a gate says "in browser", "verify visually", "check the UI", or describes user interactions, you MUST actually test it in the browser. Use available browser/MCP tools (e.g. claude-in-chrome) to navigate, click, type, and observe. Reading the source code is not verification of browser behaviour. If you do not have browser access, score the gate as UNVERIFIED and say why.
+
 **Rules:**
 
-- Verify gates. If a gate is a command, run it. If it is a behavioural check, test it. If it is a structural assertion, inspect the code. Do not skip any gate because it "probably passes."
+- Verify gates. If a gate is a command, run it. If it is a behavioural check, test it in the actual environment. If it is a structural assertion, inspect the code. Do not skip any gate because it "probably passes." Reading code and concluding "this should work" is not verification.
 - Open files. Do not assess requirements by reading the diff alone. Verify the actual state of the code.
-- No ungrounded claims. If you cannot verify something, say so and score it as UNVERIFIED, not as a failure.
+- No ungrounded claims. If you cannot verify something, say so and score it as UNVERIFIED, not as a failure. UNVERIFIED blocks the verdict just like FAIL.
 - No padding. Do not list things that are fine just to look thorough. Only report failures, partial completions, and genuine concerns.
 - Be direct. If the wave is not done, say so. If it is done, say so without caveats.
