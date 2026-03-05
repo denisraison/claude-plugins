@@ -72,6 +72,8 @@ Do not invent an overall numeric score. The per-criterion results are the score.
 ### Verdict
 [N/M gates passed, N/M requirements passed]
 **PROCEED** or **HOLD** -- [one sentence justification, list items to fix if HOLD]
+
+If PROCEED: update the PEP file now. Check off completed tasks (`- [x]`) and update the wave/PEP status. If any decisions were made or issues fixed that aren't documented in the PEP, add them as notes to the wave so the PEP stays the source of truth.
 ```
 
 **Rules:**
