@@ -44,7 +44,7 @@ A wave must give enough context that someone unfamiliar with the codebase — in
 - Name the specific files or areas affected and what changes in them
 - Explain approach decisions when there are multiple valid options
 - Include what tests need to be created or updated and how to handle edge cases
-- Have a gate that is runnable: a command, a test suite, a concrete observable check — not just "it works"
+- End with a gate: the proof that the wave is done. Start with at least one deterministic check (a command, test suite, type check, linter) that produces a pass/fail exit code. Then add judgement-based checks if needed (behavioural verification, structural assertions, before/after comparisons). The PEP author decides what proof looks like for their domain, but deterministic checks catch the obvious failures before anything else runs.
 
 Don't over-specify. The goal is a clear picture of *what* needs to happen and *why*, not line-by-line instructions. Tasks should describe outcomes, not dictate implementation steps.
 

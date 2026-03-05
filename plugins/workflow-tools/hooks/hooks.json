@@ -1,0 +1,15 @@
+{
+  "description": "Gate-keeper Stop hook for PEP wave verification. Only activates when .pep-gate exists.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/pep-gate-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

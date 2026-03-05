@@ -13,7 +13,7 @@
       "name": "consultant",
       "source": "./plugins/consultant",
       "description": "Multi-model AI consultation using cursor-agent. Supports consultation, research, and deliberation modes.",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "keywords": [
         "consultant",
         "research",
@@ -51,8 +51,8 @@
     {
       "name": "workflow-tools",
       "source": "./plugins/workflow-tools",
-      "description": "Code review, cleanup, refactoring, PEP document workflow tools, and browser testing agent.",
-      "version": "1.5.0",
+      "description": "Code review, cleanup, refactoring, PEP document workflow tools, browser testing agent, and gate-keeper evaluation agent.",
+      "version": "2.0.0",
       "keywords": [
         "review",
         "cleanup",
@@ -92,7 +92,7 @@
       "name": "logo-pipeline",
       "source": "./plugins/logo-pipeline",
       "description": "Logo design generation pipeline using Gemini image generation. Generates prompt variations, calls API, evaluates results, iterates, and produces brand kits.",
-      "version": "1.7.0",
+      "version": "2.0.0",
       "keywords": [
         "logo",
         "design",
