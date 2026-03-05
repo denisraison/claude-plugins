@@ -1,6 +1,6 @@
 {
   "name": "consultant",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Multi-model AI consultation using cursor-agent. Supports consultation, research, and deliberation modes.",
   "keywords": [
     "consultant",
