@@ -59,7 +59,8 @@ Instructions:
 - Run the deterministic gate checks (test suites, type checks, linters) after each significant change
 - When all requirements are met and gate criteria pass:
   1. Update the PEP file: check off completed tasks (`- [x]`), update wave status. If you made decisions not covered by the PEP or fixed issues the gate caught, add them to the wave as notes so the PEP stays the source of truth.
-  2. Commit your work with a message referencing the PEP and wave
+  2. Run /simplify to review the changed code for reuse, quality, and efficiency. Fix any issues it finds.
+  3. Commit your work with a message referencing the PEP and wave
 - Before stopping, verify every gate criterion yourself. If any gate fails, fix it before stopping.
 - When all gates pass, delete the .pep-gate file then stop.
 PROMPT
@@ -101,7 +102,8 @@ Instructions:
 - Run deterministic gate checks after each significant change
 - When all requirements are met and gates pass:
   1. Update the PEP file: check off completed tasks (\`- [x]\`), update wave status. If you made decisions not covered by the PEP or fixed issues the gate caught, add them to the wave as notes so the PEP stays the source of truth.
-  2. Commit with a message referencing the PEP and wave
+  2. Run /simplify to review the changed code for reuse, quality, and efficiency. Fix any issues it finds.
+  3. Commit with a message referencing the PEP and wave
 - If all gates pass, delete .pep-gate and output GATES_PASSED as your final line
 - If you cannot get all gates passing, commit what you have and output GATES_FAILED as your final line
 PROMPT
