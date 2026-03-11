@@ -1,0 +1,13 @@
+{
+  "name": "d2-diagrams",
+  "version": "1.0.0",
+  "description": "Generate professional architecture and flow diagrams using D2 with C4 model conventions. Includes style guide, judge loop for quality iteration, and layout best practices.",
+  "keywords": [
+    "d2",
+    "diagrams",
+    "architecture",
+    "c4-model",
+    "visualization",
+    "flow-diagrams"
+  ]
+}
