@@ -89,10 +89,23 @@
       ]
     },
     {
+      "name": "d2-diagrams",
+      "source": "./plugins/d2-diagrams",
+      "description": "Generate professional architecture and flow diagrams using D2 with C4 model conventions. Includes style guide, judge loop for quality iteration, and layout best practices.",
+      "version": "1.0.0",
+      "keywords": [
+        "d2",
+        "diagrams",
+        "architecture",
+        "c4-model",
+        "visualization"
+      ]
+    },
+    {
       "name": "logo-pipeline",
       "source": "./plugins/logo-pipeline",
       "description": "Logo design generation pipeline using Gemini image generation. Generates prompt variations, calls API, evaluates results, iterates, and produces brand kits.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "keywords": [
         "logo",
         "design",

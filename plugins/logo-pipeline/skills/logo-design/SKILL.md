@@ -58,12 +58,12 @@ Professional, tech-forward, minimal.
 
 Present all prompts to the user for approval. They can modify, add, or remove prompts.
 
-### Stage 3: Flash Generation
+### Stage 3: Concept Generation
 
 Show cost estimate before running:
 ```
-Generating {N} images with Flash model
-Estimated cost: ~${N * 0.02} (Flash at ~$0.02/image)
+Generating {N} images with Nano Banana 2
+Estimated cost: ~${N * 0.02} (~$0.02/image)
 ```
 
 Run `generate-image.sh` in parallel for all prompts. Save to `./logo-output/{brand-slug}/stage1-flash/`.
@@ -73,7 +73,6 @@ Run `generate-image.sh` in parallel for all prompts. Save to `./logo-output/{bra
 for i in $(seq 1 N); do
     scripts/generate-image.sh \
         --prompt "..." \
-        --model flash \
         --output "./logo-output/{brand}/stage1-flash/concept-${i}.png" \
         --aspect-ratio "1:1" &
 done
@@ -99,13 +98,13 @@ Present results as a ranked table:
 
 Recommend the top 2-3 candidates for refinement. Explain why each was selected and what could be improved with better prompting.
 
-### Stage 5: Pro Refinement
+### Stage 5: Refinement
 
 For the selected concepts, refine the prompts based on evaluation notes. Show cost estimate:
 
 ```
-Refining {N} concepts with Pro model at 2K resolution
-Estimated cost: ~${N * 0.12-0.20} (Pro at higher quality)
+Refining {N} concepts at 2K resolution
+Estimated cost: ~${N * 0.02} (~$0.02/image)
 ```
 
 Generate refined versions:
@@ -114,7 +113,6 @@ Generate refined versions:
 for i in ...; do
     scripts/generate-image.sh \
         --prompt "..." \
-        --model pro \
         --output "./logo-output/{brand}/stage2-refined/refined-${i}.png" \
         --aspect-ratio "1:1" \
         --image-size 2K &
@@ -126,7 +124,7 @@ Generate 2-3 variations per winning concept (prompt tweaks for color, weight, sp
 
 ### Stage 6: Final Selection
 
-Re-evaluate refined images using the same rubric. Present comparison between flash originals and refined versions.
+Re-evaluate refined images using the same rubric. Present comparison between initial concepts and refined versions.
 
 Let the user pick the winner. If they want changes, iterate (go back to Stage 5 with modified prompts).
 
@@ -181,8 +179,8 @@ After the user confirms a winner, create a complete brand kit. Save everything t
 
 Show cost estimate before running:
 ```
-Generating 7 brand kit variants with Flash model
-Estimated cost: ~$0.14 (Flash at ~$0.02/image)
+Generating 7 brand kit variants
+Estimated cost: ~$0.14 (~$0.02/image)
 ```
 
 Set variables for convenience:
@@ -198,31 +196,31 @@ mkdir -p "$KIT"
 ```bash
 $SCRIPT --input-image "$FINAL" \
     --prompt "Place this exact logo on a dark navy background (#1a1a2e). Keep the logo colors exactly as they are. Clean, centered, professional." \
-    --model flash --output "$KIT/dark-bg.png" --aspect-ratio "1:1" &
+    --output "$KIT/dark-bg.png" --aspect-ratio "1:1" &
 
 $SCRIPT --input-image "$FINAL" \
     --prompt "Convert this logo to a single-color pure white version on a solid black background. Every element (all colored shapes and all text) must become pure white. No colors, no grays, only white on black." \
-    --model flash --output "$KIT/mono-white.png" --aspect-ratio "1:1" &
+    --output "$KIT/mono-white.png" --aspect-ratio "1:1" &
 
 $SCRIPT --input-image "$FINAL" \
     --prompt "Convert this logo to a single-color pure black version on a solid white background. Every element (all colored shapes and all text) must become pure black. No colors, no grays, only black on white." \
-    --model flash --output "$KIT/mono-dark.png" --aspect-ratio "1:1" &
+    --output "$KIT/mono-dark.png" --aspect-ratio "1:1" &
 
 $SCRIPT --input-image "$FINAL" \
     --prompt "Show only the icon mark from this logo, without any text. Just the symbol, tightly cropped with small even padding on all sides. White background." \
-    --model flash --output "$KIT/favicon.png" --aspect-ratio "1:1" &
+    --output "$KIT/favicon.png" --aspect-ratio "1:1" &
 
 $SCRIPT --input-image "$FINAL" \
     --prompt "Show only the icon mark from this logo, without any text. Center the symbol with generous padding around it. White background. Suitable for a social media profile picture." \
-    --model flash --output "$KIT/social-profile.png" --aspect-ratio "1:1" &
+    --output "$KIT/social-profile.png" --aspect-ratio "1:1" &
 
 $SCRIPT --input-image "$FINAL" \
     --prompt "Show only the icon mark from this logo as a mobile app icon. No text. Center the symbol with even padding. Rounded corners suitable for iOS/Android app icons. White background." \
-    --model flash --output "$KIT/app-icon.png" --aspect-ratio "1:1" &
+    --output "$KIT/app-icon.png" --aspect-ratio "1:1" &
 
 $SCRIPT --input-image "$FINAL" \
     --prompt "Place the icon mark from this logo on the left side of a clean horizontal banner. Add the brand name in matching typography to the right. White background, professional layout, generous spacing between mark and text." \
-    --model flash --output "$KIT/social-banner.png" --aspect-ratio "16:9" &
+    --output "$KIT/social-banner.png" --aspect-ratio "16:9" &
 
 wait
 ```
@@ -234,7 +232,7 @@ wait
 - Describe the logo elements by their visual properties (colors, shapes) rather than abstract terms
 - The model understands "icon mark" to mean the symbol without text
 
-**Valid aspect ratios:** `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`. Use `16:9` for social banners (not `3:1`).
+**Valid aspect ratios:** `1:1`, `1:4`, `1:8`, `2:3`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:4`, `8:1`, `9:16`, `16:9`, `21:9`. Use `16:9` for social banners (not `3:1`).
 
 Review results and retry any that don't match expectations with refined prompts.
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Generate or edit an image via Gemini API.
-# Usage: generate-image.sh --prompt "..." --model flash|pro --output path.png [--aspect-ratio 1:1] [--image-size 1K|2K|4K] [--input-image source.png]
+# Usage: generate-image.sh --prompt "..." --output path.png [--model banana] [--aspect-ratio 1:1] [--image-size 1K|2K|4K] [--input-image source.png]
 
 set -euo pipefail
 
@@ -24,10 +24,13 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ -z "$PROMPT" || -z "$MODEL_ALIAS" || -z "$OUTPUT" ]]; then
-    echo "Required: --prompt, --model (flash|pro), --output" >&2
+if [[ -z "$PROMPT" || -z "$OUTPUT" ]]; then
+    echo "Required: --prompt, --output" >&2
     exit 1
 fi
+
+# Default to banana if no model specified
+MODEL_ALIAS="${MODEL_ALIAS:-banana}"
 
 if [[ -n "$INPUT_IMAGE" && ! -f "$INPUT_IMAGE" ]]; then
     echo "Input image not found: $INPUT_IMAGE" >&2
@@ -41,9 +44,8 @@ fi
 
 # Resolve model alias to full model ID
 case "$MODEL_ALIAS" in
-    flash) MODEL="gemini-2.5-flash-image" ;;
-    pro)   MODEL="gemini-3-pro-image-preview" ;;
-    *)     echo "Unknown model alias: $MODEL_ALIAS (use flash or pro)" >&2; exit 1 ;;
+    banana|flash|pro) MODEL="gemini-3.1-flash-image-preview" ;;
+    *)     echo "Unknown model alias: $MODEL_ALIAS (use banana)" >&2; exit 1 ;;
 esac
 
 URL="https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}"
