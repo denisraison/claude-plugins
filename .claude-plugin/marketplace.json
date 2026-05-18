@@ -51,13 +51,12 @@
     {
       "name": "workflow-tools",
       "source": "./plugins/workflow-tools",
-      "description": "Code review, cleanup, refactoring, PEP document workflow tools, browser testing agent, and gate-keeper evaluation agent.",
-      "version": "2.3.2",
+      "description": "Code review, cleanup, refactoring, browser testing agent, and gate-keeper evaluation agent. PEP workflow moved to its own marketplace at the pep repo.",
+      "version": "3.0.0",
       "keywords": [
         "review",
         "cleanup",
         "refactor",
-        "pep",
         "workflow",
         "checklist"
       ]
