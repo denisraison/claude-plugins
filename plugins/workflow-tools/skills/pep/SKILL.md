@@ -1,60 +1,77 @@
 ---
 name: pep
-description: This skill should be used when the user says "create a PEP", "update PEP", "PEP status", "document this", or references PEP-*.md files. Manages PEP (Project Enhancement Proposal) documents for tracking decisions and implementation plans.
+description: This skill should be used when the user says "create a PEP", "update PEP", "PEP status", "document this", or references PEP-*.md files. Manages PEP (Project Enhancement Proposal) documents for tracking decisions and implementation plans, with files-per-step waves, mandatory adversarial review, and evidence-required wave completion.
 ---
 
 # PEP Workflow
 
-PEPs document decisions and implementation plans.
+PEPs are the decision artifact and the execution plan in one document. A PEP is approved by the human, reviewed adversarially before execution starts, and updated with real evidence as each wave completes. The skill is generic; per-repo specifics live in `agent-constraints/` at the repo root.
 
 ## Determine Action
 
-- **"create PEP"** or **"document this"** -> Create new PEP
-- **"update PEP"** or **"mark done"** -> Update existing PEP
-- **"PEP status"** -> Show status
+- **"create PEP"** or **"document this"** -> Create new PEP (jump to Create)
+- **"update PEP"** or **"mark done"** -> Update existing PEP (jump to Update)
+- **"PEP status"** -> Show status (jump to Status)
+
+## Repository Configuration
+
+Before creating or executing a PEP, check for these files at the repo root and read the ones that exist:
+
+- `agent-constraints/planning-conventions.md` - analysis, documentation, and test strategy requirements for this repo
+- `agent-constraints/adversarial-dimensions.md` - review criteria specific to this repo
+- `agent-constraints/implementation-conventions.md` - build, verify, and PR conventions
+- `agent-constraints/triage-conventions.md` - codebase exploration rules
+
+Per-repo files win over skill defaults; partial existence is fine, fall back per file. Always cite which override applied under the PEP's `Conventions applied` line.
 
 ## Create PEP
 
-1. Glob for `**/docs/PEP-*.md` to find the highest number, increment for next
-2. Write to `docs/PEP-XXX-<slug>.md`
+1. Find the docs directory. Default is `docs/` at the repo root. If the repo is a monorepo or the user names a different location, use that. If no `docs/` exists, create one (or use the repo's convention from `CLAUDE.md`).
+2. Glob `<docs>/PEP-*.md` (not repo-wide) to find the highest number, increment for next. First PEP in a repo is `PEP-001`.
+3. Read repo `CLAUDE.md` and any `agent-constraints/*.md` files that exist.
+4. Write the PEP to `<docs>/PEP-XXX-<slug>.md` using the template at [references/template.md](references/template.md). Do not improvise the markdown shape.
+5. Immediately run the adversarial review pass (see [references/adversarial-review.md](references/adversarial-review.md)) before presenting to the human.
+6. Present the plan and the review findings together. Never present a plan that hasn't been adversarially reviewed.
 
-### Structure
+## Wave Authoring
 
-Every PEP needs these sections. There is no fixed template — adapt the depth and format to the task:
+A wave is a sweep of work followed by a gate. Each wave must have: a name describing what it does (not a generic label), a primary Shape (see [references/wave-shapes.md](references/wave-shapes.md)), Files, Risks, Rollback (mandatory for Config and Migration shapes), and one or more Gates whose form depends on the Shape.
 
-- **Title, Status** (Draft | In Progress | Done), **Date**
-- **Context** — The why. Explain the problem or decision clearly enough that someone unfamiliar could argue for it. Include what you're doing about it.
-- **Waves** — The work, broken into sweeps. See guidelines below.
-- **Consequences** — What changes as a result. Name real trade-offs, not just "things improve."
+Choose the right number of waves based on complexity. 1 wave for a config change or simple fix. 2 for a new feature with tests. 3+ for cross-cutting changes. Do not default to 3.
 
-### Waves
+Cross-wave contracts ("public API stays unchanged", "old code keeps working between deploys") go in the PEP's `Invariants` section, not buried in per-wave Risks.
 
-A wave is a sweep of work followed by a gate. Choose the right number based on complexity:
+## Adversarial Review (mandatory before execution)
 
-- **1 wave:** Config change, simple bug fix, documentation update
-- **2 waves:** New feature with tests, refactor with migration
-- **3+ waves:** Large cross-cutting change, multi-system integration
+After writing or iterating the plan, run the adversarial review pass before presenting to the human. See [references/adversarial-review.md](references/adversarial-review.md). PEP status cannot advance from In Review to Approved without:
 
-Do not default to 3. Name each wave after what it actually does, not generic labels.
+1. Files opened during review listed in the PEP (audit trail)
+2. Findings written with severity and category
+3. Human explicit approval
 
-### What Makes a Good Wave
+Planning and review are always paired, no exceptions.
 
-A wave must give enough context that someone unfamiliar with the codebase — including an AI — could start working without asking clarifying questions. Each wave should:
+## Wave Execution
 
-- Name the specific files or areas affected and what changes in them
-- Explain approach decisions when there are multiple valid options
-- Include what tests need to be created or updated and how to handle edge cases
-- End with a gate: the proof that the wave is done. Start with at least one deterministic check (a command, test suite, type check, linter) that produces a pass/fail exit code. Then add judgement-based checks if needed (behavioural verification, structural assertions, before/after comparisons). The PEP author decides what proof looks like for their domain, but deterministic checks catch the obvious failures before anything else runs. For browser/UI gates, make them executable: specify the URL, the steps to perform (click X, type Y), and the expected outcome. "Verify it works in the browser" is not a gate. "Navigate to localhost:3000, click the Submit button, verify the success toast appears" is.
-
-Don't over-specify. The goal is a clear picture of *what* needs to happen and *why*, not line-by-line instructions. Tasks should describe outcomes, not dictate implementation steps.
+When a wave starts, flip PEP status to In Progress. Follow the wave's Shape. When the gate is reached, paste evidence into `Gate Result` per [references/verification.md](references/verification.md), then flip the wave's checkbox to `[x]`.
 
 ## Update PEP
 
 1. Read the PEP file
-2. Check off completed tasks (`- [x]`)
-3. When a wave's gate passes, update Status if needed
+2. Update wave checkboxes only after Gate Result has real pasted evidence
+3. When all waves are done, flip PEP status to Done
+4. If the work surfaced a non-obvious gotcha, add to Session Learnings
 
 ## Status Check
 
-1. Glob for `**/docs/PEP-*.md`
-2. Report each: filename, status, pending task count
+1. Glob `<docs>/PEP-*.md`
+2. For each: filename, status, current wave, pending wave count
+
+## Key Rules
+
+1. **Never present a plan without adversarial review.** Planning and review are paired.
+2. **Never mark a wave done without pasted evidence.** See [references/verification.md](references/verification.md).
+3. **File unrelated discoveries as new PEPs immediately.** A bug, smell, or gap surfaced during work that isn't part of this PEP becomes its own PEP. Do not scope-creep.
+4. **Per-repo `agent-constraints/` wins over skill defaults.** Cite which override applied in `Conventions applied`.
+5. **Rollback is mandatory for Config / Infrastructure and Migration shapes.** Skipping it is a finding, not a green.
+6. **Use issue-scoped filenames for temp files** (e.g. `/tmp/findings-pep-042.yaml`) to avoid leaking state between sessions.
