@@ -1,0 +1,5 @@
+{
+  "name": "pep",
+  "version": "0.5.0",
+  "description": "PEP (Project Enhancement Proposal) workflow: markdown-driven planning, investigation, and execution with wave shapes, adversarial review, and gate evidence. Audit hook records what actually ran. No engine, no state.db. Folds in the spike (investigation) flow."
+}

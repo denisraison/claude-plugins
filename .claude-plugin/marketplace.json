@@ -101,6 +101,20 @@
       ]
     },
     {
+      "name": "pep",
+      "source": "./plugins/pep",
+      "description": "PEP workflow: markdown-driven planning, investigation, and execution. Wave shapes, adversarial review, evidence-required gates. Folds in the spike (investigation) flow. Audit hook records what actually ran.",
+      "version": "0.5.0",
+      "keywords": [
+        "pep",
+        "planning",
+        "investigation",
+        "spike",
+        "tdd",
+        "workflow"
+      ]
+    },
+    {
       "name": "logo-pipeline",
       "source": "./plugins/logo-pipeline",
       "description": "Logo design generation pipeline using Gemini image generation. Generates prompt variations, calls API, evaluates results, iterates, and produces brand kits.",

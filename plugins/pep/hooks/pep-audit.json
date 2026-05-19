@@ -1,0 +1,16 @@
+{
+  "description": "PostToolUse audit hook for PEP wave verification. Writes Bash/Edit/Write payloads to .pep/audit.log as JSONL. Silent no-op when CWD has no .pep/ dir.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/pep-audit.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
