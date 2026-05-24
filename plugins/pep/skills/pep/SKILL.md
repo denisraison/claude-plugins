@@ -32,6 +32,13 @@ read the ones that exist:
 - `agent-constraints/implementation-conventions.md` - build, verify, and PR conventions
 - `agent-constraints/triage-conventions.md` - codebase exploration rules
 
+Also read, if present, for domain vocabulary and settled decisions:
+
+- `CONTEXT.md` (or `CONTEXT-MAP.md`) - the repo's domain glossary. Use its
+  terms in the PEP so names stay consistent; the `grill` skill maintains it.
+- `docs/adr/` - recorded architectural decisions. Don't re-plan around a
+  settled ADR; cite it instead.
+
 Per-repo files win over skill defaults; partial existence is fine, fall back per
 file. Always cite which override applied under the PEP's `Conventions applied`
 line.

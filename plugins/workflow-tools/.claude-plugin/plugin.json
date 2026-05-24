@@ -1,5 +1,5 @@
 {
   "name": "workflow-tools",
-  "version": "3.0.0",
-  "description": "Code review, cleanup, refactoring, browser testing agent, and gate-keeper evaluation agent. PEP workflow moved to its own marketplace at the pep repo."
+  "version": "3.1.0",
+  "description": "Code review, cleanup, refactoring, debugging discipline, browser testing agent, and gate-keeper evaluation agent. PEP workflow moved to its own marketplace at the pep repo."
 }
