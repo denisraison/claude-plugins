@@ -13,6 +13,7 @@ Paths use `${CLAUDE_CONFIG_DIR:-$HOME/.claude}` (resolve via shell, do not hardc
 
 ## Hard rules — do not violate
 
+0. **You MUST write a REPORT.md every run** at `${CLAUDE_CONFIG_DIR:-$HOME/.claude}/curator/reports/<UTC-ISO-ts>/REPORT.md`. This is non-negotiable. If you cannot complete the pass for any reason (missing scripts, empty skill dir, error), write a REPORT.md describing what stopped you and exit. A run that ends without writing a report is a bug. The confirmation line on stdout (final step) must reflect what you actually did this run, including a failure mode if there was one.
 1. **Only touch skills under `${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/`.** Never `plugins/*/skills/`. Never anything under `.archive/`.
 2. **Never delete.** Archiving (moving to `~/.claude-work/skills/.archive/<name>.<ts>`) is the maximum destructive action. Archives are recoverable; deletion is not.
 3. **Never touch pinned skills.** They appear with `pinned=yes` in the candidate list.
@@ -27,15 +28,17 @@ The right target shape is CLASS-LEVEL skills with rich `SKILL.md` bodies + `refe
 
 ## Steps
 
-1. **Resolve mode and paths.** Run:
-   ```
+1. **Resolve mode and paths.** Run exactly this — these paths are tested:
+   ```bash
    ROOT="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
-   PLUGIN_ROOT="$(dirname "$(dirname "$(readlink -f "$0" 2>/dev/null || echo "$ROOT/plugins/curator")")")"
-   # If running from installed plugin, fall back to:
-   PLUGIN_ROOT="${PLUGIN_ROOT:-$HOME/.claude/plugins/curator}"
+   # Plugin cache layout: <root>/plugins/cache/<marketplace>/curator/<version>/scripts/
+   SCRIPTS=$(ls -d "$ROOT"/plugins/cache/*/curator/*/scripts 2>/dev/null | sort -V | tail -1)
+   SCRIPTS=${SCRIPTS:-$(ls -d "$HOME"/.claude/plugins/cache/*/curator/*/scripts 2>/dev/null | sort -V | tail -1)}
+   # Last-resort dev fallback (running from the source repo)
+   SCRIPTS=${SCRIPTS:-$(ls -d "$HOME"/workspace/claude-plugins/plugins/curator/scripts 2>/dev/null)}
    mkdir -p "$ROOT/curator/reports" "$ROOT/curator/backups"
    ```
-   In practice, just locate the curator plugin's `scripts/` dir under one of the plugin install roots.
+   If `$SCRIPTS` is empty after this, STOP and write a REPORT.md to `$ROOT/curator/reports/<ts>/REPORT.md` containing only: `# Curator pass aborted — could not locate plugin scripts. Checked: $ROOT/plugins/cache/*/curator/*/scripts and $HOME/.claude/plugins/cache/*/curator/*/scripts`. Do not exit silently. A run that doesn't write a report is a bug.
 
 2. **Pre-flight checks.**
    - Read `$ROOT/curator/state.json` if present. If `paused: true`, stop with "curator paused, run /curator-status to resume".
@@ -44,19 +47,19 @@ The right target shape is CLASS-LEVEL skills with rich `SKILL.md` bodies + `refe
 
 3. **Snapshot before mutating.** Only if `MODE == live`:
    ```
-   bash <plugin>/scripts/pre-run-backup.sh "pre-run"
+   bash "$SCRIPTS/pre-run-backup.sh" "pre-run"
    ```
    Capture the backup path it prints. If this fails, abort. No live pass without a backup.
 
 4. **Auto-transitions.** Run:
    ```
-   bash <plugin>/scripts/auto-transitions.sh [--dry-run if MODE==dry-run]
+   bash "$SCRIPTS/auto-transitions.sh" [--dry-run if MODE==dry-run]
    ```
    Capture the output. This is the deterministic phase, no LLM judgement needed.
 
 5. **Read the candidate list.**
    ```
-   bash <plugin>/scripts/candidate-list.sh
+   bash "$SCRIPTS/candidate-list.sh"
    ```
    This prints lines: `<state>\t<days-since-mtime>\t<pinned>\t<name>\t<desc>`. Read it in full before you start judging.
 
@@ -126,7 +129,7 @@ When `MODE == dry-run`:
 - DO NOT call Edit, Write, or `mv` on anything under `$ROOT/skills/`.
 - DO NOT call the backup script. No snapshot needed for a read-only pass.
 - DO call the auto-transitions script with `--dry-run`.
-- Read freely (Read, Glob, Grep, candidate-list.sh).
+- Read freely (Read, Glob, Grep, candidate-list.sh").
 - The report you write IS the deliverable. Describe the actions you WOULD take, not actions you took. The user reads the report and decides whether to run `/curate live`.
 - If you accidentally take a mutating action, say so explicitly in the summary so it can be reverted.
 

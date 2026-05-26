@@ -32,8 +32,13 @@ You are the curator rollback handler. Paths use `${CLAUDE_CONFIG_DIR:-$HOME/.cla
 
 5. On confirmation, in order:
    ```
+   # Locate plugin scripts (same discovery as /curate)
+   ROOT="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+   SCRIPTS=$(ls -d "$ROOT"/plugins/cache/*/curator/*/scripts 2>/dev/null | sort -V | tail -1)
+   SCRIPTS=${SCRIPTS:-$(ls -d "$HOME"/.claude/plugins/cache/*/curator/*/scripts 2>/dev/null | sort -V | tail -1)}
+
    # Snapshot the current state first (so rollback is reversible)
-   bash <plugin>/scripts/pre-run-backup.sh "pre-rollback to $TARGET_ID"
+   bash "$SCRIPTS/pre-run-backup.sh" "pre-rollback to $TARGET_ID"
 
    # Replace
    rm -rf "$SKILLS_DIR.rolling"

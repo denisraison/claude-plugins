@@ -147,7 +147,7 @@
       "name": "curator",
       "source": "./plugins/curator",
       "description": "Background skill-library maintenance. Weekly idle-gated pass that consolidates near-duplicate skills into umbrella skills with references/templates/scripts subfiles. Pre-run snapshots, rollback, pin. Ported from Hermes.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "keywords": [
         "curator",
         "skills",
