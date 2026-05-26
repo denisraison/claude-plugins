@@ -129,6 +129,19 @@
         "gemini",
         "branding"
       ]
+    },
+    {
+      "name": "auto-improve",
+      "source": "./plugins/auto-improve",
+      "description": "Background review hook that learns from each session. Interval-gated per-turn reviews with frustration/save-this overrides, ported from Hermes agent's self-improvement loop.",
+      "version": "0.2.0",
+      "keywords": [
+        "memory",
+        "skills",
+        "self-improvement",
+        "background-review",
+        "learning"
+      ]
     }
   ]
 }

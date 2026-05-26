@@ -1,0 +1,15 @@
+{
+  "description": "Stop hook that spawns a background review pass to update memory and skills based on the session.",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/stop-review.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
