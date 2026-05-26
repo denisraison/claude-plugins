@@ -1,0 +1,5 @@
+{
+  "name": "curator",
+  "version": "0.1.0",
+  "description": "Background skill-library maintenance. Weekly idle-gated pass that consolidates near-duplicate skills into umbrellas with references/templates/scripts, with pre-run snapshots and rollback. Ported from Hermes."
+}

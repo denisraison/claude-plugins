@@ -144,6 +144,19 @@
       ]
     },
     {
+      "name": "curator",
+      "source": "./plugins/curator",
+      "description": "Background skill-library maintenance. Weekly idle-gated pass that consolidates near-duplicate skills into umbrella skills with references/templates/scripts subfiles. Pre-run snapshots, rollback, pin. Ported from Hermes.",
+      "version": "0.1.0",
+      "keywords": [
+        "curator",
+        "skills",
+        "consolidation",
+        "maintenance",
+        "hermes"
+      ]
+    },
+    {
       "name": "auto-improve",
       "source": "./plugins/auto-improve",
       "description": "Background review hook that learns from each session. Interval-gated per-turn reviews with frustration/save-this overrides, ported from Hermes agent's self-improvement loop.",
