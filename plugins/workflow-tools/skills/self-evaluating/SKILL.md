@@ -23,7 +23,7 @@ Score each dimension 1-10:
 | **Accuracy** | Everything factually correct based on the code? No guesses stated as facts. |
 | **Clarity** | Someone with basic context can follow without re-reading? |
 | **Completeness** | Obvious gaps or missing pieces? |
-| **Natural voice** | Reads like a human wrote it? (Apply writing-naturally skill criteria) |
+| **Natural voice** | Reads like a human wrote it? No line numbers, no full file paths sprinkled inline, no AI vocabulary. |
 
 For **diagrams only**, add:
 

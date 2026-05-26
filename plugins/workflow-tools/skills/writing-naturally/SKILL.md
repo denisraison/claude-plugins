@@ -49,3 +49,5 @@ If the user points out sloppy phrasing, fix it immediately and remember the patt
 - Numbered section titles when not needed
 - Vocabulary that sounds academic ("empirically", "facilitates")
 - Redundant sections saying the same thing twice
+- Including specific line numbers when referencing source files (e.g. "see `foo.ts` (lines 82-180)"). Line numbers go stale and scream AI-generated.
+- Excessive inline source file paths. A path here and there for key entry points is fine. But when every paragraph has one in parentheses it reads like a machine dumping search results. Use short names in prose ("the cache refresh worker") and put full paths in a reference table if needed.
