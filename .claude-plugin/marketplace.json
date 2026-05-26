@@ -131,6 +131,19 @@
       ]
     },
     {
+      "name": "memory",
+      "source": "./plugins/memory",
+      "description": "Persistent session memory: /note-session writes daily logs, /rollup-day distills them, /recall searches the curated layer. No external deps.",
+      "version": "0.1.0",
+      "keywords": [
+        "memory",
+        "recall",
+        "session",
+        "rollup",
+        "history"
+      ]
+    },
+    {
       "name": "auto-improve",
       "source": "./plugins/auto-improve",
       "description": "Background review hook that learns from each session. Interval-gated per-turn reviews with frustration/save-this overrides, ported from Hermes agent's self-improvement loop.",
