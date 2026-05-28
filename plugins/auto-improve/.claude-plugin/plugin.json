@@ -1,5 +1,5 @@
 {
   "name": "auto-improve",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Background review hook that learns from each session. Forks a headless Claude after every Stop to update memory and skills."
 }
