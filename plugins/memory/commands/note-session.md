@@ -1,7 +1,6 @@
 ---
 description: Checkpoint the current session into the global daily session log. Idempotent, append-only, safe to run multiple times and before /compact.
 allowed-tools: Bash, Read, Write, Edit
-model: sonnet
 ---
 
 You are checkpointing the current Claude Code session into a persistent global session log so context survives `/compact`, `/clear`, and session boundaries. ONE file per day, all projects merged, each entry tagged with its project.
@@ -13,7 +12,7 @@ Paths use `${CLAUDE_CONFIG_DIR:-$HOME/.claude}` (resolve via shell, do not hardc
 1. **Resolve paths**
    - `MEM_ROOT="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/memory"`
    - `LOG="$MEM_ROOT/sessions/$(date +%Y-%m-%d).md"` (GLOBAL, all projects)
-   - Project tag: derive from `$PWD`. Use the basename of the workspace dir, e.g. `/Users/denis/workspace/linkby` -> `linkby`, `/Users/denis/workspace/dot` -> `dot`, `/Users/denis/workspace/linkby/api-cf` -> `api-cf`, `/Users/denis/workspace/linkby-worktrees/<branch>/api-cf` -> `api-cf`. Take the deepest meaningful component (the actual repo or workspace name, not branch/worktree dir).
+   - Project tag: derive from `$PWD`. Use the basename of the workspace dir, e.g. `~/workspace/myapp` -> `myapp`, `~/workspace/myapp/api` -> `api`, `~/worktrees/<branch>/api` -> `api`. Take the deepest meaningful component (the actual repo or workspace name, not branch/worktree dir).
 
 2. **Find the transcript file** for the current session.
    - **If the user message includes "transcript path: <path>"** (passed by the auto-checkpoint hook), use that exact path. Skip the discovery step. Also extract `cwd` from the message and use it for the project tag.
@@ -41,7 +40,7 @@ Paths use `${CLAUDE_CONFIG_DIR:-$HOME/.claude}` (resolve via shell, do not hardc
    ```
 
    Rules:
-   - Project tag in the header is mandatory. Use square brackets so it's grep-able: `grep '\[linkby\]' sessions/*.md`.
+   - Project tag in the header is mandatory. Use square brackets so it's grep-able: `grep '\[myapp\]' sessions/*.md`.
    - Skip filler ("we discussed", "the user asked"). Just facts.
    - If a section is empty, write "none" — don't omit the line.
    - "Worth remembering" is the signal for the daily rollup. Be ruthless: most sessions have nothing.

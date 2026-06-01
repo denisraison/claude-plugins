@@ -39,7 +39,7 @@ launchd.agents.claude-rollup = {
       "/bin/zsh" "-lc"
       "claude -p '/rollup-day yesterday' --permission-mode acceptEdits --allowed-tools 'Bash,Read,Write'"
     ];
-    EnvironmentVariables.CLAUDE_CONFIG_DIR = "/Users/you/.claude-work";
+    EnvironmentVariables.CLAUDE_CONFIG_DIR = "/Users/you/.claude-custom";
     StartCalendarInterval = [{ Hour = 9; Minute = 0; }];
     RunAtLoad = true;
   };
@@ -50,4 +50,4 @@ launchd.agents.claude-rollup = {
 
 ## Paths
 
-All paths resolve via `${CLAUDE_CONFIG_DIR:-$HOME/.claude}`. If you use a custom config dir (e.g. `~/.claude-work`), set the env var and everything follows.
+All paths resolve via `${CLAUDE_CONFIG_DIR:-$HOME/.claude}`. If you use a custom config dir (e.g. `~/.claude-custom`), set the env var and everything follows.

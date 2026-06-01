@@ -1,0 +1,27 @@
+{
+  "description": "Auto-checkpoint the session into the global daily log on PreCompact and SessionEnd. Skips trivial SessionEnd events (<50 new transcript lines) and summarizes with Haiku.",
+  "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/checkpoint-session.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/checkpoint-session.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

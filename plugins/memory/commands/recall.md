@@ -1,5 +1,5 @@
 ---
-description: Search and navigate the global session memory. Use natural questions like "what was I doing yesterday in api-cf?" or "what did we decide about JWT cookies?".
+description: Search and navigate the global session memory. Use natural questions like "what was I doing yesterday in the api repo?" or "what did we decide about JWT cookies?".
 allowed-tools: Bash, Read, Grep, Glob
 argument-hint: <natural language question>
 ---
