@@ -1,5 +1,5 @@
 {
   "name": "qa",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "QA spine. qa-scenarios generates user-impact test scenarios from a code change, reading a layered repo-local QA.md failure-mode corpus discovered at runtime. Product-agnostic; grows the corpus as the user reacts to scenarios."
 }

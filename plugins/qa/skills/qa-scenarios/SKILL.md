@@ -123,12 +123,14 @@ Rules for good scenarios:
 - Each scenario names *why* it exists. If you can't state why, cut it.
 - Prefer a handful of sharp scenarios over a long generic list. Volume is the failure mode of generic QA.
 - Mark which scenarios are unit-testable now vs. which need browser / integration / manual, so the user knows what's cheap.
+- Test what the *user observes*, not just the API contract. The diff usually lives in one repo (e.g. a backend), but the user hits the change through a UI in another. If a touched failure mode records a `Surface:` (the component that renders the result, and which field/flag becomes which on-screen state), write the scenario as a user-observable outcome against that surface ("publisher opens My Pitches -> Active, the card must badge X, not Y"), not just the raw response field. You don't have to read the rendering code to state the behaviour; if you need the other repo to pin exact markup, say so and tag it browser/manual. If the change looks user-facing but no `Surface:` is recorded for that flow, that's a corpus gap: ask what renders it, and record the surface (see Step 4). Don't silently stop at the backend boundary.
 
 ### Step 4: grow the corpus
 
 This is what makes the skill improve instead of repeating itself. When the user reacts to the scenarios:
 - A scenario they call useless or impossible -> append it to the **Corrections log** with the rule that would have prevented it.
 - A failure mode they mention that wasn't in the file -> add it to **Failure modes**.
+- What renders a user-facing flow (the component, the field-to-on-screen-state mapping) -> record it as a `Surface:` line on the relevant failure mode, so next time the scenario can be written at the user-observable level without re-discovering the wiring.
 - A new triage rule they state -> add it to **Triage rules**.
 
 Make these edits yourself, as a side effect of the conversation. The user should never have to open and hand-edit the file; reacting to your output is how they teach it. Write to the right level: a cross-repo or boundary failure goes in the workspace-root `QA.md`; a failure genuinely local to one repo goes in that repo's `QA.md` (creating it only if a repo-local mode actually warrants one).
