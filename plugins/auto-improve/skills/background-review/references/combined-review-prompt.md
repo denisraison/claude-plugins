@@ -19,6 +19,8 @@ If none of these are present, output exactly `Nothing to save.` and stop. That i
 1. **UPDATE A LOADED SKILL.** Check what skills appeared in the conversation. If one covers the learning, patch it.
 2. **UPDATE AN EXISTING UMBRELLA.** Read the "Existing skills" list above. If any one is a reasonable home, patch it as a labeled subsection — even if the fit isn't perfect.
 3. **ADD A SUPPORT FILE** under an existing umbrella: `references/<topic>.md`, `templates/<name>.<ext>`, or `scripts/<name>.<ext>`. Add a one-line pointer in the parent SKILL.md.
+   - **First list the existing `references/` files.** If one already covers this topic (same feature, ticket, bug, or pattern — even from a prior session), `Edit` it to fold in the new detail. Do NOT create a second file for the same topic.
+   - **Name by topic, never by date.** Use `references/posthog-identity-relay.md`, not `references/posthog-identity-relay-2026-06-22.md`. A date suffix means you're logging a session, not building a reference — that's the wrong instinct. Timeless topic names are what let the next session find and update the file instead of duplicating it.
 4. **CREATE A NEW UMBRELLA** — only as a last resort.
 
 ## How to patch an existing skill (CRITICAL)

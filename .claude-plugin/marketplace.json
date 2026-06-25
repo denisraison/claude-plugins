@@ -160,7 +160,7 @@
       "name": "auto-improve",
       "source": "./plugins/auto-improve",
       "description": "Background review hook that learns from each session. Interval-gated per-turn reviews with frustration/save-this overrides, ported from Hermes agent's self-improvement loop.",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "keywords": [
         "memory",
         "skills",
