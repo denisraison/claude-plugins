@@ -62,6 +62,19 @@ boundaries.
 whether the code agrees. Surface contradictions: "Your code cancels entire
 Orders, but you just said partial cancellation is possible, which is right?"
 
+**Resolve data-backed terms to the column, not just the read.** When a term
+will drive an ORDER BY, filter, or tier ("most recent", "active", "worked
+together", "owner"), reading the query that *consumes* the column isn't enough,
+the query can be well-formed and fast and still mean the wrong thing. Resolve
+the term to (1) which column backs it, (2) what writes that column and when
+(read the persistency write path, not just the SELECT), and (3) what the real
+data looks like. A column named `createdAt` may be stamped at row creation while
+the event you mean (an accept, a status change) lands on `updatedAt`; a
+`startDate` may include future-scheduled rows; a join row may exist in a draft
+state you didn't intend to count. The term is fuzzy language until those
+resolve. Verify (2) and (3) empirically against real data before baking the
+column into the spec.
+
 ## Maintain the glossary inline
 
 When a term resolves, update `CONTEXT.md` right then, don't batch. Use the

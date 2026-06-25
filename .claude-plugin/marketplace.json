@@ -106,7 +106,7 @@
       "name": "pep",
       "source": "./plugins/pep",
       "description": "PEP workflow: markdown-driven planning, investigation, and execution. Wave shapes, adversarial review, evidence-required gates. Folds in the spike (investigation) flow. Audit hook records what actually ran. Includes the grill skill (alignment interview + domain glossary) as the planning front door.",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "keywords": [
         "pep",
         "planning",

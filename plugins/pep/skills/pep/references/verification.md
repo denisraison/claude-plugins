@@ -52,6 +52,7 @@ Plenty of gates produce no test output. They still need pasted evidence. Example
 - **Cert chain / renewal**: subject + `notBefore` from `openssl x509`. Paste both, and confirm `notBefore` advanced after forced renewal.
 - **Mesh reachability**: `$ tailscale ping <host> | head -1` -> contains `via DIRECT`. Relayed is not direct, that's a finding.
 - **Structural / Invariant**: `$ rg "auth::infra" src/auth/domain/` -> exit 1, no output. Paste the command and the exit code.
+- **Column semantics (ORDER BY / filter / tier waves)**: a wave that ranks, filters, or tiers on a data-backed term ("most recent", "active", "worked together") needs evidence the chosen column *means* that, not just that the query runs. Paste two things against real data: the write-path check (which column the event actually stamps, e.g. accept lands on `updatedAt` not `createdAt`) and a distribution/rank-stability query (`$ ... SELECT count(*) FILTER (WHERE rank_a != rank_b) ...` -> how many rows reorder under the alternative column). A fast, well-formed query that sorts on a semantically wrong column is a finding, not a green.
 
 The pattern is always the same: command, exit code, the few lines that matter. Not the full log.
 
