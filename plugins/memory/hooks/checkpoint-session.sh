@@ -60,8 +60,20 @@ fi
   # Haiku is plenty for this structured summarization and ~10x cheaper than Sonnet.
   # Override via CHECKPOINT_MODEL (e.g. CHECKPOINT_MODEL=sonnet for sharper "Worth remembering").
   MODEL="${CHECKPOINT_MODEL:-haiku}"
-  claude -p --model "$MODEL" "$PROMPT" >> "$HOOK_LOG" 2>&1
-  echo "$(date -Iseconds) done event=$EVENT session=$SESSION_ID reason=$REASON" >> "$HOOK_LOG"
+  # bypassPermissions: headless subprocess can't answer permission prompts, so without this the
+  # /note-session skill invocation silently fails ("requires permission") and writes nothing.
+  # Prompt must come BEFORE --allowedTools: that flag is variadic (<tools...>) and would otherwise
+  # swallow the prompt string as a tool name.
+  claude -p "$PROMPT" \
+    --model "$MODEL" \
+    --permission-mode bypassPermissions \
+    --allowedTools Bash Read Write Edit Skill >> "$HOOK_LOG" 2>&1
+  RC=$?
+  if [ "$RC" -eq 0 ]; then
+    echo "$(date -Iseconds) done event=$EVENT session=$SESSION_ID reason=$REASON" >> "$HOOK_LOG"
+  else
+    echo "$(date -Iseconds) FAILED (rc=$RC) event=$EVENT session=$SESSION_ID reason=$REASON" >> "$HOOK_LOG"
+  fi
 ) </dev/null >/dev/null 2>&1 &
 
 disown 2>/dev/null || true

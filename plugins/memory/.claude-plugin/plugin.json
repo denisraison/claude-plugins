@@ -1,5 +1,5 @@
 {
   "name": "memory",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Persistent session memory: auto-checkpoints sessions (PreCompact/SessionEnd), /note-session writes daily logs, /rollup-day distills them, /recall searches the curated layer."
 }
