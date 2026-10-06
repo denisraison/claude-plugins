@@ -92,19 +92,6 @@
       ]
     },
     {
-      "name": "d2-diagrams",
-      "source": "./plugins/d2-diagrams",
-      "description": "Generate professional architecture and flow diagrams using D2 with C4 model conventions. Includes style guide, judge loop for quality iteration, and layout best practices.",
-      "version": "1.0.0",
-      "keywords": [
-        "d2",
-        "diagrams",
-        "architecture",
-        "c4-model",
-        "visualization"
-      ]
-    },
-    {
       "name": "pep",
       "source": "./plugins/pep",
       "description": "PEP workflow: markdown-driven planning, investigation, and execution. Wave shapes, adversarial review, evidence-required gates. Folds in the spike (investigation) flow. Audit hook records what actually ran. Includes the grill skill (alignment interview + domain glossary) as the planning front door.",
