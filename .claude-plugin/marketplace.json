@@ -183,6 +183,19 @@
         "failure-modes",
         "review"
       ]
+    },
+    {
+      "name": "excalidraw-diagrams",
+      "source": "./plugins/excalidraw-diagrams",
+      "description": "Turn spoken or typed descriptions into editable .excalidraw diagrams, with canvas edits synced back into the graph.",
+      "version": "1.0.0",
+      "keywords": [
+        "excalidraw",
+        "diagrams",
+        "architecture",
+        "flowchart",
+        "voice"
+      ]
     }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "name": "excalidraw-diagrams",
+  "version": "1.0.0",
+  "description": "Turn spoken or typed descriptions into editable .excalidraw diagrams. Claude writes a small graph JSON, a bundled script lays it out with ELK and writes the Excalidraw file, canvas edits sync back into the graph, and positions are kept between renders.",
+  "keywords": [
+    "excalidraw",
+    "diagrams",
+    "architecture",
+    "flowchart",
+    "voice",
+    "hex"
+  ]
+}

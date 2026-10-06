@@ -1,0 +1,12 @@
+{
+  "name": "excalidraw-diagrams-scripts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "elkjs": "^0.12.0",
+    "simple-icons": "^16.33.0"
+  }
+}

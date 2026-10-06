@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>preview</title>
+<script>window.EXCALIDRAW_ASSET_PATH = "https://esm.sh/@excalidraw/excalidraw@0.18.0/dist/prod/";</script>
+</head>
+<body>
+<script type="module">
+import { exportToBlob, restore } from "https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@19.2.3,react-dom@19.2.3";
+
+const MAX_SIDE = 2400;
+
+try {
+  const scene = restore(await (await fetch("/scene")).json(), null, null);
+  const blob = await exportToBlob({
+    elements: scene.elements,
+    appState: { ...scene.appState, exportBackground: true, viewBackgroundColor: "#ffffff" },
+    files: scene.files,
+    exportPadding: 40,
+    mimeType: "image/png",
+    // 2x for crisp text, capped so huge diagrams stay a readable size
+    getDimensions: (width, height) => {
+      const scale = Math.min(2, MAX_SIDE / Math.max(width, height));
+      return { width: width * scale, height: height * scale, scale };
+    },
+  });
+  await fetch("/png", { method: "PUT", body: blob });
+} catch (err) {
+  await fetch("/png", { method: "PUT", headers: { "x-error": String(err?.message ?? err) } });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>excalidraw</title>
+<link rel="stylesheet" href="https://esm.sh/@excalidraw/excalidraw@0.18.0/dist/prod/index.css">
+<style>html, body, #app { margin: 0; height: 100%; }</style>
+<script>window.EXCALIDRAW_ASSET_PATH = "https://esm.sh/@excalidraw/excalidraw@0.18.0/dist/prod/";</script>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import React from "https://esm.sh/react@19.2.3";
+import { createRoot } from "https://esm.sh/react-dom@19.2.3/client";
+import { Excalidraw, restore, serializeAsJSON } from "https://esm.sh/@excalidraw/excalidraw@0.18.0?deps=react@19.2.3,react-dom@19.2.3";
+
+let api = null;
+let mtime = 0;
+let savedVersion = -1;
+let saveTimer = null;
+
+const sceneVersion = (elements) => elements.reduce((sum, el) => sum + el.version, 0);
+
+async function fetchScene() {
+  const res = await fetch("/scene");
+  mtime = Number(res.headers.get("x-mtime"));
+  return restore(await res.json(), null, null);
+}
+
+async function reload() {
+  clearTimeout(saveTimer);
+  const scene = await fetchScene();
+  api.addFiles(Object.values(scene.files));
+  api.updateScene({ elements: scene.elements, captureUpdate: "NEVER" });
+  savedVersion = sceneVersion(api.getSceneElements());
+  api.scrollToContent(undefined, { fitToContent: true });
+}
+
+// Only element edits are saved; selection, scroll and zoom changes are not.
+function onChange(elements) {
+  const version = sceneVersion(elements);
+  if (version === savedVersion) {
+    return;
+  }
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    savedVersion = version;
+    const body = serializeAsJSON(api.getSceneElementsIncludingDeleted(), api.getAppState(), api.getFiles(), "local");
+    const res = await fetch("/scene", { method: "PUT", body });
+    mtime = Number(res.headers.get("x-mtime"));
+  }, 600);
+}
+
+// Pick up renders written to disk by diagram.sh.
+setInterval(async () => {
+  const res = await fetch("/mtime");
+  if (Number(await res.text()) !== mtime) {
+    await reload();
+  }
+}, 1000);
+
+const initial = await fetchScene();
+const App = () => React.createElement(Excalidraw, {
+  initialData: { ...initial, scrollToContent: true },
+  excalidrawAPI: (a) => {
+    api = a;
+    window.excalidrawAPI = a;
+    savedVersion = sceneVersion(initial.elements);
+  },
+  onChange,
+});
+createRoot(document.getElementById("app")).render(React.createElement(App));
+</script>
+</body>
+</html>
