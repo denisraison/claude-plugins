@@ -35,12 +35,34 @@ Enforce a natural, human writing voice across all prose output. This skill exist
 
 ## Self-Check
 
-Before presenting any written output, score it 1-10 for AI sloppiness:
+A document can be clean sentence by sentence and still read badly as a whole. The rules above catch the first problem, not the second. So the check has two passes, and a grep for dashes or banned words is neither of them.
+
+### Pass 1: the whole document
+
+Do this first, reading top to bottom in one go. Never judge from the diff or from the parts you just edited. Documents that grew by patching (a new layer added on top, a section rewritten in place) are where repetition and contradictions hide.
+
+1. Write down who reads it and what they need to walk away with, in one line. Cut or merge any section that doesn't serve that.
+2. List the key claims, rules and numbers, and count where each one appears. Each should live in one place. A second mention is fine only as a short pointer.
+3. For every decision or rule (who does what, when to use which option, what is forbidden), check that every place that mentions it agrees. Look hardest where a list, a table and a script or example all cover the same thing.
+4. Check that no section only restates another document the reader also has. Point to it instead.
+5. Check that the order follows what the reader needs first, not the order things were researched or written.
+
+### Pass 2: sentences
+
+Go through the style rules above.
+
+### Score
+
+Score both passes 1 to 10 for AI sloppiness, and report both:
 - 1-3: natural, reads like a human wrote it
 - 4-6: some tells, needs a pass
 - 7-10: obvious AI output, rewrite
 
-Target score: 3 or below. If above 3, rewrite the sloppy parts before presenting.
+Target: 3 or below on both. The document score is the one that usually fails.
+
+### When someone else reviews it
+
+The author is anchored on what they meant to write. For documents that go to other people, have a reviewer who did not write it read the final text cold. Give it the reader and purpose, not your summary of what changed. Ask for repetition, contradictions and anything unclear, with the place in the text. A sub-agent that rewrites a file and reports its own score is not this review, and its score covers only the file it touched. Read the final text yourself before calling it done.
 
 ## When Corrected
 
@@ -49,5 +71,6 @@ If the user points out sloppy phrasing, fix it immediately and remember the patt
 - Numbered section titles when not needed
 - Vocabulary that sounds academic ("empirically", "facilitates")
 - Redundant sections saying the same thing twice
+- A document scored 3 sentence by sentence that repeated the same fact four or five times and contradicted itself between a script and a rule. It had grown by adding layers on top of existing sections, and the review only looked at the edits.
 - Including specific line numbers when referencing source files (e.g. "see `foo.ts` (lines 82-180)"). Line numbers go stale and scream AI-generated.
 - Excessive inline source file paths. A path here and there for key entry points is fine. But when every paragraph has one in parentheses it reads like a machine dumping search results. Use short names in prose ("the cache refresh worker") and put full paths in a reference table if needed.
