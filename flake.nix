@@ -1,5 +1,5 @@
 {
-  description = "claude-plugins environment";
+  description = "skills dev shell";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -15,7 +15,7 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [];
+          packages = with pkgs; [ bash jq nodejs ];
         };
       }
     );

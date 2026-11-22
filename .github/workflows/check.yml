@@ -1,0 +1,24 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Test the checks
+        run: checks/test/run
+
+      - name: Check skills
+        run: checks/check-skills
+
+      - name: Validate plugin and frontmatter
+        run: npx -y @anthropic-ai/claude-code@2.1.322 plugin validate .

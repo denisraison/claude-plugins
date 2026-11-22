@@ -1,0 +1,9 @@
+{
+  "name": "skills",
+  "description": "Denis's agent skills: writing, logo design, diagrams, QA scenarios.",
+  "author": {
+    "name": "Denis Santos"
+  },
+  "repository": "https://github.com/denisraison/skills",
+  "license": "MIT"
+}

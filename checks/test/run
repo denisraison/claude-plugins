@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Runs check-skills against each fixture. pass-* must exit 0; fail-* must exit 1
+# and print the text in its `expected` file, so a fixture failing for the wrong
+# reason is caught. Fixtures store SKILL.fixture.md and claude-plugin/ so no
+# skill installer or plugin validator mistakes them for real skills.
+set -uo pipefail
+
+here="$(cd "$(dirname "$0")" && pwd)"
+check="$here/../check-skills"
+failures=0
+
+for case in "$here"/fixtures/*/; do
+  name="$(basename "$case")"
+  work="$(mktemp -d)"
+  cp -r "$case." "$work"
+  find "$work" -name SKILL.fixture.md -execdir mv SKILL.fixture.md SKILL.md \;
+  [ -d "$work/claude-plugin" ] && mv "$work/claude-plugin" "$work/.claude-plugin"
+  rm -f "$work/expected"
+
+  output="$("$check" "$work" 2>&1)"
+  status=$?
+  case "$name" in
+    pass-*)
+      if [ "$status" -ne 0 ]; then
+        echo "FAIL $name: expected exit 0, got $status"; echo "$output"; failures=$((failures + 1))
+      fi ;;
+    fail-*)
+      expected="$(cat "$case/expected")"
+      if [ "$status" -ne 1 ]; then
+        echo "FAIL $name: expected exit 1, got $status"; failures=$((failures + 1))
+      elif ! grep -qF "$expected" <<< "$output"; then
+        echo "FAIL $name: output lacks '$expected'"; echo "$output"; failures=$((failures + 1))
+      fi ;;
+  esac
+  rm -rf "$work"
+done
+
+total=$(find "$here/fixtures" -mindepth 1 -maxdepth 1 -type d | wc -l)
+echo "$((total - failures))/$total fixtures passed"
+[ "$failures" -eq 0 ]

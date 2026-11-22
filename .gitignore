@@ -36,7 +36,6 @@ flake-regressions
 # direnv
 .direnv/
 
-nicknisi-claude-plugins/
 
 # Scratch space
 scratch/
@@ -66,3 +65,6 @@ dist/
 
 # Logs
 *.log
+# EGM working files
+/design_draft.md
+/*_report.md

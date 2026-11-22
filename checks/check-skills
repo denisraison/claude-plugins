@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Checks this repo's own rules: skill size, harness-specific tokens, no version field.
+# Frontmatter is left to `claude plugin validate .`, which parses it.
+# Usage: checks/check-skills [root]   (default: the git repo root)
+set -uo pipefail
+
+root="${1:-$(git rev-parse --show-toplevel)}"
+cd "$root" || exit 2
+
+max_lines=500
+tokens='CLAUDE_PLUGIN_ROOT|AskUserQuestion|TodoWrite'
+model_ids='\b(claude|gpt|gemini)-[0-9]'
+problems=0
+
+flag() {
+  echo "$1: $2"
+  problems=$((problems + 1))
+}
+
+shopt -s nullglob
+for skill in skills/*/SKILL.md; do
+  lines=$(wc -l < "$skill")
+  if [ "$lines" -gt "$max_lines" ]; then
+    flag "$skill:$lines" "over $max_lines lines ($lines)"
+  fi
+
+  for file in "$skill" "$(dirname "$skill")"/references/*.md; do
+    while IFS=: read -r line match; do
+      flag "$file:$line" "harness-specific token '$match'"
+    done < <(grep -n -o -E "$tokens" "$file")
+    while IFS=: read -r line match; do
+      flag "$file:$line" "model ID '$match'"
+    done < <(grep -n -o -i -E "$model_ids" "$file")
+  done
+done
+
+for manifest in .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
+  [ -f "$manifest" ] || continue
+  if [ "$(jq '[paths | select(.[-1] == "version")] | length' "$manifest")" -gt 0 ]; then
+    flag "$manifest:1" "has a version field; leave it out so updates follow the git commit"
+  fi
+done
+
+[ "$problems" -eq 0 ] || exit 1
