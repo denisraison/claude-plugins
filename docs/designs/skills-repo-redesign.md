@@ -42,7 +42,7 @@ EGM (Google's Elephant-Goldfish Model plugin: a long-context agent drafts a desi
 *   **Installing Matt Pocock's skills, or copying upstream skills in bulk.** Ideas are borrowed one skill at a time, when a task needs it.
 *   **Anything from work.** Skills and workflows built for Denis's employer stay out of this repo. Anything similar here is written from scratch on his own time, and nothing derived from work is published before he has checked his employment contract.
 *   **The local sandbox and permissions gap.** That belongs in `~/workspace/dot` and Claude settings.
-*   **Project-local skills and agents in other repos** (`500k`, `oifarmas` and others).
+*   **Project-local skills and agents in other repos** (`500k` and others).
 *   **Improving the agent's writing voice.** Voice and plain-words corrections are judgement calls. `writing-naturally` stays, but changing how often Denis corrects voice is not a goal here.
 *   **Fixing unverified claims.** "Did you check?" corrections (27) are the second-largest group, but this design does not address them.
 
