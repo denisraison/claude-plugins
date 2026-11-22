@@ -40,7 +40,7 @@ fi
 
 echo "Mode: $MODE"
 echo "Serving gallery for: $DIR"
-echo "Open http://0.0.0.0:$PORT"
+echo "Open http://localhost:$PORT (from other devices: https://$PORT.dev.raison.dev)"
 
 python3 - "$DIR" "$PORT" "$MODE" << 'PYTHON_EOF'
 import http.server
@@ -352,9 +352,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 
-print(f"Gallery server running on http://0.0.0.0:{PORT}")
+print(f"Gallery server running on http://localhost:{PORT}")
 print(f"Serving images from: {ROOT}")
 print(f"Mode: {MODE}")
 print("Press Ctrl+C to stop")
-http.server.HTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
+http.server.HTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
 PYTHON_EOF
