@@ -48,7 +48,6 @@ EGM (Google's Elephant-Goldfish Model plugin: a long-context agent drafts a desi
 
 ## Open Questions
 
-*   **Does `claude plugin validate .` run in GitHub Actions without a login?** Checked on the first push. If it does not, CI runs only `check-skills`, and the local install checkpoint in phase 1 covers frontmatter.
 *   **Which source does the homeserver use for `dnix`?** A folder source at `~/workspace/skills` loads edits at every session start with no push, as `santos` does today. A GitHub source matches the work Mac. Decided in phase 5.
 
 ## Critical User Journeys (CUJs)
