@@ -1,6 +1,6 @@
 ---
 name: logo-design
-description: Logo design generation pipeline using Gemini image generation API. Generates diverse prompt variations, calls the API in parallel, reads and evaluates resulting images, scores them against a rubric, and iterates through refinement stages. Use when user says 'design a logo', 'create a logo', 'logo for', 'brand identity', or wants to generate logo concepts.
+description: Logo design generation pipeline using Gemini image generation API. Generates diverse prompt variations, calls the API in parallel, reads and evaluates resulting images, scores them against a rubric, and iterates through refinement stages. Use when user says 'design a logo', 'create a logo', 'logo for', 'brand identity', or wants to generate logo concepts. Needs an agent that can view images.
 ---
 
 # Logo Design Pipeline

@@ -5,11 +5,11 @@ description: This skill should be used when the user asks to "create a diagram",
 
 # Excalidraw Diagrams
 
-Turn a spoken or typed description into an editable `.excalidraw` file. Claude only decides **what** is in the diagram (nodes, edges, groups) as a small graph JSON. `scripts/diagram.sh` does all layout (ELK), styling, icons and the Excalidraw file format. Never hand-write Excalidraw elements.
+Turn a spoken or typed description into an editable `.excalidraw` file. The agent only decides **what** is in the diagram (nodes, edges, groups) as a small graph JSON. `scripts/diagram.sh` does all layout (ELK), styling, icons and the Excalidraw file format. Never hand-write Excalidraw elements.
 
 Each diagram is two files side by side:
 
-- `<name>.graph.json` is the source of truth that Claude edits.
+- `<name>.graph.json` is the source of truth that the agent edits.
 - `<name>.excalidraw` is the rendered output the user opens and edits.
 
 Put them in the current directory unless the user names a place. Use a short kebab-case name.
@@ -34,7 +34,7 @@ Requests usually arrive as raw dictation, so read them for intent, not literally
 **Changing an existing diagram**
 
 1. Run `scripts/diagram.sh sync <name>.graph.json`. This folds anything the user changed on the canvas (deleted, renamed, relabeled, re-shaped, hand-drawn labeled boxes and arrows between boxes) into the graph and prints what it found. Mention those changes back briefly.
-2. Read `<name>.graph.json`, then make the change with targeted Edit calls. Do not rewrite the whole file, so untouched nodes keep their ids.
+2. Read `<name>.graph.json`, then make the change with targeted edits. Do not rewrite the whole file, so untouched nodes keep their ids.
 3. Run `scripts/diagram.sh render <name>.graph.json`. Everything already on the canvas stays where it is, including boxes the user dragged; only new things get placed.
 4. Check it (below).
 
@@ -42,7 +42,7 @@ Add `--relayout` to render only when the user asks to tidy up, clean up or re-ar
 
 **Check every render**
 
-Run `scripts/diagram.sh preview <name>.graph.json` and Read the `<name>.png` it writes. It is exactly what Excalidraw would export. Look for:
+Run `scripts/diagram.sh preview <name>.graph.json` and open the `<name>.png` it writes. It is exactly what Excalidraw would export. Look for:
 
 - an arrow pointing against the flow that isn't a real loop back
 - labels sitting on top of each other or on a box
