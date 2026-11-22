@@ -48,7 +48,7 @@ EGM (Google's Elephant-Goldfish Model plugin: a long-context agent drafts a desi
 
 ## Open Questions
 
-*   **Which source does the homeserver use for `dnix`?** A folder source at `~/workspace/skills` loads edits at every session start with no push, as `santos` does today. A GitHub source matches the work Mac. Decided in phase 5.
+None.
 
 ## Critical User Journeys (CUJs)
 
@@ -172,7 +172,7 @@ The work runs in phases. Each phase ends on a checkpoint before the next starts.
 2.  **Switch over** (this machine). `santos` (today's marketplace) is a folder marketplace pointing at this working directory, so once the build branch is checked out its plugins no longer load at the next session start. Run the teardown below, remove the `santos` marketplace, and add the folder back as `dnix` (`claude plugin marketplace add ~/workspace/claude-plugins`, then `claude plugin install skills@dnix`). Checkpoint: `claude plugin list` shows `skills@dnix` and no `@santos` entry.
 3.  **Publish.** Merge, push, then `gh repo rename skills`. Checkpoint: with a throwaway `HOME`, `npx skills add denisraison/skills -g -y --agent claude-code` installs exactly the four skills into `$HOME/.claude/skills/`.
 4.  **Move.** Close every session in the repo. Move `~/workspace/claude-plugins` to `~/workspace/skills`, and `~/.claude/projects/-home-denis-workspace-claude-plugins` to `~/.claude/projects/-home-denis-workspace-skills`. Update `~/workspace/brain/projects.md` (plan item 23).
-5.  **Declare.** Plan item 22 in dot. Rebuild the homeserver, then the work Mac. Refresh EGM on each: `claude plugin marketplace update egm`, `claude plugin uninstall egm@egm`, delete `~/.claude/plugins/cache/egm/egm/0.1.1`, `claude plugin install egm@egm`. Checkpoint: both machines show `skills@dnix` and `egm@egm`, and `egm-lite` is in the EGM skill list.
+5.  **Declare.** Plan item 22 in dot. It only seeds `settings.json` when the file is missing, and `mac.nix` does not manage Claude settings, so on both machines the live settings are also edited by hand. On the work Mac that is `~/.claude-work`, the profile behind the `claude` alias. Refresh EGM on each: `claude plugin marketplace update egm`, `claude plugin uninstall egm@egm`, delete `~/.claude/plugins/cache/egm/egm/0.1.1`, `claude plugin install egm@egm`. Checkpoint: both machines show `skills@dnix` and `egm@egm`, and `egm-lite` is in the EGM skill list.
 6.  **Review.** Record the ship date. 90 days later, run the goal 6 review.
 
 **Teardown** (phase 2):
@@ -369,7 +369,7 @@ The work runs in phases. Each phase ends on a checkpoint before the next starts.
 #### 22. `~/workspace/dot/home/claude.nix` (Modify, in the dot repo)
 
 *   **Type / Scope**: home-manager config.
-*   **Proposed Changes**: Add `extraKnownMarketplaces` for `dnix` (GitHub `denisraison/skills`, `autoUpdate = true`) and `egm` (GitHub `google/elephant-goldfish-model`). In `enabledPlugins`, remove every `@santos` entry and add `skills@dnix` and `egm@egm`. Set `cleanupPeriodDays = 120`.
+*   **Proposed Changes**: Add `extraKnownMarketplaces` for `dnix` and `egm`. The homeserver loads `dnix` from the `~/workspace/skills` folder, so edits load at the next session with no push. Other machines use GitHub `denisraison/skills` with `autoUpdate = true`. `egm` is GitHub `google/elephant-goldfish-model`. In `enabledPlugins`, remove every `@santos` entry and add `skills@dnix` and `egm@egm`. Set `cleanupPeriodDays = 120`.
 
 #### 23. `~/workspace/brain/projects.md` (Modify, in the brain repo)
 
