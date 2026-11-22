@@ -8,6 +8,8 @@ My agent skills. They follow the Agent Skills format, so they work in Claude Cod
 | `logo-design` | Generates, scores and refines logo concepts with the Gemini image API. Needs an agent that can view images. |
 | `excalidraw-diagrams` | Turns a described flow or architecture into an editable `.excalidraw` diagram. |
 | `qa-scenarios` | Writes user-impact QA test scenarios for a code change. |
+| `fix-comments` | Strips AI slop and noise from the code comments in a diff, keeping only the ones that earn their place. |
+| `grill` | Questions a plan in rounds, each with a recommended answer, until every decision is settled. |
 
 ## Install
 

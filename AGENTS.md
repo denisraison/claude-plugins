@@ -26,12 +26,12 @@ Run `checks/test/run` and `checks/check-skills` before pushing. CI runs both, pl
 
 ## Usage review
 
-90 days after shipping, retire any skill with 0 uses. Count uses in Claude Code transcripts (Skill tool calls plus typed slash commands), from a marker file touched on the ship date:
+90 days after shipping, retire any skill with 0 uses. Count uses in Claude Code transcripts (Skill tool calls plus typed slash commands), since the ship date, 2026-11-22:
 
 ```sh
-find ~/.claude/projects -name '*.jsonl' -newer <ship-marker> -print0 \
+find ~/.claude/projects -name '*.jsonl' -newermt 2026-11-22 -print0 \
   | xargs -0 grep -ho -e '"name":"Skill","input":{"skill":"skills:[a-z-]*"' -e '<command-name>/skills:[a-z-]*' \
   | grep -o 'skills:[a-z-]*' | sort | uniq -c
 ```
 
-A skill missing from the output had 0 uses.
+Run it on the homeserver and again on the work Mac with `~/.claude-work/projects` (the profile behind its `claude` alias), and add the counts. A skill missing from both had 0 uses. Counting one machine only is how `fix-comments` and `grill` were wrongly retired the first time.

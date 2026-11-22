@@ -6,15 +6,15 @@
 
 ## Overview
 
-This repo (`denisraison/claude-plugins`, renamed to `denisraison/skills` by this design) holds Denis's personal agent skills. It has grown to 13 plugins. 6 skills were called at all in about 9.5 weeks, and two hooks started 96% of all sessions in the last 30 days.
+This repo (`denisraison/claude-plugins`, renamed to `denisraison/skills` by this design) holds Denis's personal agent skills. It has grown to 13 plugins. 8 skills were called at all in about 9.5 weeks across both machines, and two hooks started 96% of all sessions in the last 30 days.
 
-This design shrinks the repo to one plugin, `skills@dnix` (`dnix` is Denis's own brand name, used here for the marketplace), holding the skills with recorded use plus two on probation. The skills are portable by construction: plain Agent Skills folders with no harness- or model-specific names.
+This design shrinks the repo to one plugin, `skills@dnix` (`dnix` is Denis's own brand name, used here for the marketplace), holding the skills with recorded use plus two on probation. `pep`, the most-used of them, is replaced by EGM's `egm-lite` on trial. The skills are portable by construction: plain Agent Skills folders with no harness- or model-specific names.
 
 EGM (Google's Elephant-Goldfish Model plugin: a long-context agent drafts a design doc, and fresh reviewers that never saw the conversation review it) stays installed for specs and review. Matt Pocock's skills are kept as a local reference to learn from, not installed or copied: Denis writes his own version of a skill the first time a task needs it. The repo's own rules (size, portability, no version field) are enforced by a check script in CI.
 
 ## The Problem
 
-**Most of the repo is unused.** Over the transcripts on disk (2026-09-16 to 2026-11-22, about 9.5 weeks, 5,070 sessions), the agent called `pep` 23 times, `writing-naturally` 7, `catchup` 4, `logo-design` 2, and `grill` and `commit` once each. Every other skill was called 0 times. `catchup` overlaps with the built-in `/recap`, which had 60 uses. `/recall`, the `memory` plugin's command for reading its logs, was never used.
+**Most of the repo is unused.** Over the transcripts on disk (2026-09-16 to 2026-11-22, about 9.5 weeks), the agent called these skills on the homeserver (5,070 sessions) and the work Mac (`~/.claude-work`, 1,224 sessions not started by hooks): `pep` 23 and 28, `fix-comments` 0 and 33, `writing-naturally` 7 and 11, `grill` 1 and 7, `self-evaluating` 0 and 7, `catchup` 4 and 0, `logo-design` 2 and 0, `commit` 1 and 0. Every other skill was called 0 times. The first version of this design counted the homeserver only; the work Mac was added after shipping, which brought back `fix-comments` and `grill`. `catchup` overlaps with the built-in `/recap`, which had 60 uses. `/recall`, the `memory` plugin's command for reading its logs, was never used.
 
 **Two hooks started 96% of sessions.** In the 30 days from 2026-10-23, about 4,533 sessions ran. 4,344 of them were started by hooks: 2,356 by `auto-improve` and 1,988 by `note-session` (the `memory` plugin's hook). They used about 1.5 billion Haiku tokens. Of the other 189, 135 were Denis working, and most of the rest were his brain repo's curator timer (39), which is not part of this repo. Both hooks were added in May 2026, and transcripts before 2026-09-16 are no longer on disk, which is why most of the 5,070 sessions fall in the last 30 days.
 
@@ -30,7 +30,7 @@ EGM (Google's Elephant-Goldfish Model plugin: a long-context agent drafts a desi
 
 1.  **Portable by construction.** Every skill is a plain folder in the Agent Skills format, installable into any agent with `npx skills add denisraison/skills -g`. No skill names a harness-specific tool, variable or model. Checked by CI for known harness- and model-specific tokens; tested end to end in Claude Code only.
 2.  **One plugin, updated by commit.** The repo ships one plugin, `skills`, from one marketplace, `dnix`, with skills in flat `skills/<name>/` folders. Neither `plugin.json` nor the marketplace entry has a `version`, so Claude Code keys the plugin to the git commit and every push is an update.
-3.  **Only skills with recorded use, plus two on probation.** The plugin keeps `writing-naturally` and `logo-design`, carries `excalidraw-diagrams` and `qa-scenarios` on probation until the goal 6 review, and retires the rest. Each `SKILL.md` stays at or under 500 lines, the limit in Claude Code's skill guidance, checked by CI.
+3.  **Only skills with recorded use, plus two on probation.** The plugin keeps `writing-naturally`, `logo-design`, `fix-comments` and `grill`, carries `excalidraw-diagrams` and `qa-scenarios` on probation until the goal 6 review, and retires the rest. Each `SKILL.md` stays at or under 500 lines, the limit in Claude Code's skill guidance, checked by CI.
 4.  **Repo rules are checks, not instructions.** A `check-skills` script enforces the line cap, the portability tokens (goal 1) and the absence of a `version` field (goal 2). `claude plugin validate .` checks frontmatter. Both run in CI. The repo ships no Claude hooks.
 5.  **No background sessions from this repo.** The `auto-improve`, `memory` and `curator` plugins are retired, along with any scheduled jobs they set up. Hook-started sessions from this repo go from 4,344 a month to 0.
 6.  **Skills are reviewed on use.** 90 days after shipping, any skill of Denis's with 0 uses (Skill tool calls plus typed slash commands, counted in Claude Code transcripts only) is retired.
@@ -119,7 +119,7 @@ Layout decisions:
 
 ### Skills
 
-All four kept skills are model-invoked: the agent can pick them up when a task fits.
+All six kept skills are model-invoked: the agent can pick them up when a task fits.
 
 | Skill | Change |
 | --- | --- |
@@ -127,8 +127,10 @@ All four kept skills are model-invoked: the agent can pick them up when a task f
 | `logo-design` | Moved as is (308 lines). Its description gains "Needs an agent that can view images." It names Gemini because it calls the Gemini API. |
 | `excalidraw-diagrams` | Moved with four wording edits to remove Claude-specific names (plan item 5). On probation: added in October with 0 calls since, retired at the goal 6 review if still unused. |
 | `qa-scenarios` | Moved as is (140 lines). On probation: 0 calls, same rule. |
+| `fix-comments` | Restored after the work Mac count (33 calls). Its examples, taken from work code, are replaced with generic ones, and it no longer points at Claude-only commands. |
+| `grill` | Rewritten (7 calls on the work Mac). Asks in rounds, each question with a recommended answer, from Matt Pocock's current `grilling`. Keeps Denis's `CONTEXT.md` and `docs/adr/` conventions and his rule for resolving data-backed terms down to the column. No longer hands off to `pep`. |
 
-These 13 plugins are retired in full: `auto-improve`, `commit-commands`, `consultant`, `curator`, `cursor-sync`, `history-analyser`, `memory`, `pep`, `skill-utils`, and the parts of `excalidraw-diagrams`, `logo-pipeline`, `qa` and `workflow-tools` not listed above. `curator` merged near-duplicate skills on a weekly run. Git history keeps them all.
+These 13 plugins are retired in full: `auto-improve`, `commit-commands`, `consultant`, `curator`, `cursor-sync`, `history-analyser`, `memory`, `pep`, `skill-utils`, and the parts of `excalidraw-diagrams`, `logo-pipeline`, `qa` and `workflow-tools` not listed above. `curator` merged near-duplicate skills on a weekly run. `self-evaluating` is retired despite 7 calls: it triggers on its own when any document is drafted, and EGM's review covers deliberate document checks. Git history keeps them all.
 
 ### Checks
 
@@ -198,8 +200,8 @@ The work runs in phases. Each phase ends on a checkpoint before the next starts.
 ### Alternative A: Keep `pep` as the main workflow
 
 *   **Pros**: Already built around Denis's habits: waves, gates, an audit hook that checks commands really ran. No new tools to learn.
-*   **Cons**: 23 calls in about 9.5 weeks. Its audit hook uses a Claude hook event. It collects unrelated text over time, like the 80 lines of Solid and Playwright notes added on 2026-11-22. Denis has to maintain it alone.
-*   **Reason for Rejection**: Low use, a Claude-only hook and unrelated text piling up mean upkeep costs more than it returns. Spec work has already moved to EGM.
+*   **Cons**: 51 calls in about 9.5 weeks (23 on the homeserver, 28 on the work Mac), so it is used, but `egm-lite` covers the same plan, gate, implement and review loop. Its audit hook uses a Claude hook event. It collects unrelated text over time, like the 80 lines of Solid and Playwright notes added on 2026-11-22. Denis has to maintain it alone.
+*   **Reason for Rejection**: A Claude-only hook and unrelated text piling up mean upkeep costs more than it returns, and `egm-lite` does the same job, maintained upstream. Spec work has already moved to EGM. `egm-lite` is on trial for Denis's next work task; if it falls short, `pep` comes back from git history.
 
 ### Alternative B: Adopt Matt Pocock's full flow
 
@@ -384,6 +386,6 @@ The work runs in phases. Each phase ends on a checkpoint before the next starts.
 *   **Other agents** (phase 3): with a throwaway `HOME`, `npx skills add denisraison/skills -g -y --agent claude-code` leaves exactly the same four folders in `$HOME/.claude/skills/`.
 *   **Excalidraw scripts**: `npm test` passes in `skills/excalidraw-diagrams/scripts/`.
 *   **No hook sessions**: one day after phase 5, this returns nothing: `find ~/.claude/projects -name '*.jsonl' -newer <ship-marker> -print0 | xargs -0 grep -l -e '"You are a background review agent' -e '"Run /note-session for transcript path'`.
-*   **Goal 6 review** (90 days after shipping): `find ~/.claude/projects -name '*.jsonl' -newer <ship-marker> -print0 | xargs -0 grep -ho -e '"name":"Skill","input":{"skill":"skills:[a-z-]*"' -e '<command-name>/skills:[a-z-]*' | grep -o 'skills:[a-z-]*' | sort | uniq -c`. Any of the four skills missing from the output had 0 uses and is retired. This counts Claude Code transcripts only.
+*   **Goal 6 review** (90 days after shipping): `find ~/.claude/projects -name '*.jsonl' -newer <ship-marker> -print0 | xargs -0 grep -ho -e '"name":"Skill","input":{"skill":"skills:[a-z-]*"' -e '<command-name>/skills:[a-z-]*' | grep -o 'skills:[a-z-]*' | sort | uniq -c`. Run it on the homeserver (`~/.claude/projects`) and on the work Mac (`~/.claude-work/projects`), and add the counts. Any skill missing from both had 0 uses and is retired. This counts Claude Code transcripts only.
 
 *Drafted with EGM*
