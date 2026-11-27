@@ -10,7 +10,8 @@ Every agent Paseo starts gets `PASEO_WORKSPACE_ID` and `PASEO_AGENT_ID` in its e
 ## Terminals
 
 ```bash
-paseo terminal ls --json                            # name, id, cwd of this workspace's tabs
+# Plain `ls` only lists tabs started in the current folder; --all plus the filter gets every tab in this workspace
+paseo terminal ls --all --json | jq --arg w "$PASEO_WORKSPACE_ID" '[.[] | select(.workspaceId == $w)]'
 id=$(paseo terminal create --workspace "$PASEO_WORKSPACE_ID" --cwd "$PWD" --name <name> --json | jq -r .id)
 paseo terminal send-keys "$id" "<command>" Enter    # types the command and presses Enter
 paseo terminal capture "$id"                        # what's on screen now; -S for scrollback
@@ -27,7 +28,9 @@ paseo terminal kill "$id"                           # only when Denis is done wi
 When he says "let me review", "open the diff", "I'll look at it" or "open it in tuicr":
 
 1. Scope. Uncommitted work (anything he says "before we commit" about): `tuicr -w`, which includes new untracked files. Committed work on a branch: `tuicr -r main..HEAD`. Both: `tuicr -r main..HEAD -w`. A PR: `tuicr pr <number>`. If there's both uncommitted and committed work and his words don't pick, ask.
-2. Open it in a `review` tab (above) and tell him it's there. Keys: `c` comment, `v` select a range, `r` mark file reviewed, `:wq` save and quit. Comments persist after quitting.
+   - Committed straight onto main, `main..HEAD` is empty: use the commits this session made, `tuicr -r <commit before your first>..HEAD`.
+   - Work in more than one repo: one tab per repo, named `review-<repo>`, each opened with `--cwd` set to that repo.
+2. Open it in a `review` tab (above) and tell him it's there. A range with several commits opens with a commit list on top and the diff below; that's the normal view, not a picker waiting for input. Keys: `c` comment, `v` select a range, `r` mark file reviewed, `:wq` save and quit. Comments persist after quitting.
 3. Wait for him to say he's done. Don't comment on your own patch, and don't start fixing yet.
 4. Read his comments:
    ```bash
