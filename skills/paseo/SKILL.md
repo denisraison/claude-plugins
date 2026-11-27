@@ -1,6 +1,6 @@
 ---
 name: paseo
-description: Drive Paseo, Denis's agent app, from inside a session. Open a terminal tab in the current workspace and run something in it (a dev server, a TUI, an interactive login), read what's on screen, start or message another agent, and open code in tuicr when Denis reviews it himself. Use when he says "let me review", "I'll review it", "open it in tuicr", "done, I left comments", "open a terminal", "run X in a tab", "start the dev server", "spin up an agent", "hand this to another agent". Not for reviews he asks you to do ("review PR 412 for me"): those are a normal code review.
+description: Drive Paseo, Denis's agent app, from inside a session. Open a terminal tab in the current workspace and run something in it (a dev server, a TUI, an interactive login), read what's on screen, start or message another agent, and open code in tuicr when Denis reviews it himself. Use when he says "let me review", "I'll review it", "open the diff", "show me the diff", "open it in tuicr", "done, I left comments", "open a terminal", "run X in a tab", "start the dev server", "spin up an agent", "hand this to another agent". Not for reviews he asks you to do ("review PR 412 for me"): those are a normal code review.
 ---
 
 Inspired by agavra/tuicr: skills/tuicr/SKILL.md
@@ -24,7 +24,7 @@ paseo terminal kill "$id"                           # only when Denis is done wi
 
 ## Denis reviews code in tuicr
 
-When he says "let me review", "I'll look at it" or "open it in tuicr":
+When he says "let me review", "open the diff", "I'll look at it" or "open it in tuicr":
 
 1. Scope. Uncommitted work (anything he says "before we commit" about): `tuicr -w`, which includes new untracked files. Committed work on a branch: `tuicr -r main..HEAD`. Both: `tuicr -r main..HEAD -w`. A PR: `tuicr pr <number>`. If there's both uncommitted and committed work and his words don't pick, ask.
 2. Open it in a `review` tab (above) and tell him it's there. Keys: `c` comment, `v` select a range, `r` mark file reviewed, `:wq` save and quit. Comments persist after quitting.
